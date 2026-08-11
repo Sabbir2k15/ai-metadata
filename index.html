@@ -1,167 +1,112 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AuraShield Pro — Frequency Shatter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AuraShield: Neural Scrubber</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    body { background: #030712; color: #f8fafc; font-family: sans-serif; min-height: 100vh; }
-    .glass-panel { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
-    canvas { max-width: 100% !important; height: auto !important; display: block; margin: 0 auto; }
+    body { background: #030712; color: white; font-family: sans-serif; }
+    .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.1); }
   </style>
 </head>
-<body class="p-4 sm:p-8 flex flex-col items-center justify-center">
-
-  <div class="max-w-3xl w-full mx-auto">
-    <header class="text-center mb-6">
-      <h1 class="text-3xl sm:text-4xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-        AuraShield Stealth Engine
-      </h1>
-      <p class="text-slate-400 text-xs mt-2">Adversarial Pixel Disruption • 0% Hue Shift • Automated Bypass</p>
-    </header>
-
-    <div class="glass-panel p-6 rounded-3xl shadow-2xl">
-      <div id="dropzone" class="border-2 border-dashed border-slate-600 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-cyan-400 transition-all text-center min-h-[200px]">
-        <i data-lucide="zap" class="w-10 h-10 text-cyan-400 mb-3"></i>
-        <p class="text-base font-bold text-slate-200">Click or Drag AI Photo</p>
-        <p class="text-xs text-slate-400 mt-1">Runs Frequency Shatter & Phase Transformation</p>
-        <input type="file" id="fileInput" accept="image/*" class="hidden" />
+<body class="flex flex-col items-center p-4">
+  <div class="max-w-4xl w-full">
+    <div class="glass p-8 rounded-[2rem] text-center">
+      <h1 class="text-3xl font-black mb-2">AuraShield <span class="text-cyan-500">v5.0</span></h1>
+      <p class="text-slate-400 text-sm mb-6">Neural Signature Scrubber & Re-encoder</p>
+      
+      <div id="dropzone" class="border-2 border-dashed border-slate-700 rounded-3xl p-10 cursor-pointer hover:border-cyan-500 transition-all">
+        <i data-lucide="scan-line" class="w-12 h-12 mx-auto text-cyan-400 mb-4"></i>
+        <p class="text-lg font-bold">Select Image to Reconstruct</p>
+        <input type="file" id="fileInput" accept="image/*" class="hidden">
       </div>
-
-      <div class="mt-6">
-        <div id="status" class="text-xs text-cyan-400 font-mono text-center mb-2">Status: System Ready</div>
-        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-          <div id="progress" class="h-full bg-gradient-to-r from-cyan-400 to-purple-500 w-0 transition-all"></div>
+      
+      <div class="mt-6 flex flex-col gap-4">
+        <div id="status" class="text-xs font-mono text-cyan-400">System Standing By...</div>
+        <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+            <div id="bar" class="h-full bg-cyan-500 w-0 transition-all duration-500"></div>
         </div>
       </div>
     </div>
-
-    <div class="mt-6 w-full flex flex-col items-center">
-      <canvas id="canvas" class="hidden rounded-2xl shadow-2xl border border-slate-700/50"></canvas>
-      <a id="downloadBtn" class="hidden mt-6 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold py-3.5 px-8 rounded-full shadow-lg hover:opacity-95 transition cursor-pointer">
-        Download Disrupted HD Photo
-      </a>
+    
+    <div class="mt-8 flex justify-center">
+        <a id="downloadBtn" class="hidden bg-gradient-to-r from-cyan-600 to-purple-600 px-10 py-4 rounded-full font-bold shadow-2xl">Download Reconstructed HD</a>
     </div>
   </div>
 
   <script>
     lucide.createIcons();
-    const canvas = document.getElementById('canvas'), ctx = canvas.getContext('2d');
-    const fileInput = document.getElementById('fileInput'), dropzone = document.getElementById('dropzone');
-    const downloadBtn = document.getElementById('downloadBtn'), status = document.getElementById('status'), progress = document.getElementById('progress');
+    const dropzone = document.getElementById('dropzone'), fileInput = document.getElementById('fileInput'), status = document.getElementById('status'), bar = document.getElementById('bar'), downloadBtn = document.getElementById('downloadBtn');
 
     dropzone.onclick = () => fileInput.click();
-    fileInput.onchange = (e) => { if (e.target.files.length) processDeepShatter(e.target.files[0]); };
+    fileInput.onchange = (e) => processReconstruct(e.target.files[0]);
 
-    async function processDeepShatter(file) {
-      updateProgress(15, "1/4 Executing Spatial Phase Transformation...");
+    async function processReconstruct(file) {
+      status.innerText = "Initializing Latent Reconstruction...";
+      bar.style.width = "20%";
+      
       const img = new Image();
       img.src = URL.createObjectURL(file);
       await img.decode();
 
-      const rawFileName = file.name.substring(0, file.name.lastIndexOf('.')) || "disrupted_photo";
-      const origW = img.width, origH = img.height;
-      const margin = 0.035;
-      const cropW = origW * (1 - margin * 2), cropH = origH * (1 - margin * 2);
+      // Canvas setup
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = img.width; canvas.height = img.height;
 
-      const MAX_SIZE = 2400;
-      let scale = Math.min(MAX_SIZE / cropW, MAX_SIZE / cropH);
-      if (scale < 1.5) scale = 1.5;
+      // Pass 1: Heavy Frequency Disruption
+      ctx.drawImage(img, 0, 0);
+      applyHighFrequencyNoise(ctx, canvas.width, canvas.height);
+      
+      // Force Blob Re-serialization (Crucial Step)
+      const blob1 = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.85));
+      const img2 = new Image();
+      img2.src = URL.createObjectURL(blob1);
+      await img2.decode();
 
-      const targetW = Math.floor(cropW * scale), targetH = Math.floor(cropH * scale);
-      canvas.width = targetW; canvas.height = targetH;
-
-      // 1. Perspective Transform & Micro Rotate
-      ctx.save();
-      ctx.translate(targetW / 2, targetH / 2);
-      ctx.rotate((0.18 * Math.PI) / 180);
-      ctx.scale(1.003, 0.997); // Anisotropic Stretch (Matrix Shift)
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(img, origW * margin, origH * margin, cropW, cropH, -targetW / 2, -targetH / 2, targetW, targetH);
-      ctx.restore();
-
-      // 2. Adversarial Non-Linear Pixel Shear (Breaks Diffusion Covariance Grid)
-      updateProgress(45, "2/4 Running Adversarial Grid Disruption...");
-      applyPixelGlitchShatter(ctx, targetW, targetH);
-
-      // 3. High Frequency Noise Injection
-      updateProgress(75, "3/4 Injecting High-Frequency Wave Texture...");
-      applyFrequencyNoise(ctx, targetW, targetH);
-
-      // 4. Double DCT Quantization Matrix Pass
-      updateProgress(90, "4/4 Re-quantizing DCT Coefficient Matrix...");
-      const pass1 = canvas.toDataURL('image/jpeg', 0.82);
-      await new Promise(r => {
-        const i = new Image();
-        i.onload = () => { ctx.drawImage(i, 0, 0, targetW, targetH); r(); };
-        i.src = pass1;
-      });
-
-      const finalData = injectCanonEXIF(canvas.toDataURL('image/jpeg', 0.96));
-
-      downloadBtn.href = finalData;
-      downloadBtn.download = `${rawFileName}_stealth.jpg`;
+      // Pass 2: Reconstruction & EXIF Injection
+      status.innerText = "Reconstructing Pixel Matrix...";
+      bar.style.width = "60%";
+      const canvas2 = document.createElement('canvas');
+      const ctx2 = canvas2.getContext('2d');
+      canvas2.width = img2.width; canvas2.height = img2.height;
+      ctx2.drawImage(img2, 0, 0);
+      
+      // Final metadata injection
+      status.innerText = "Injecting Forensic Metadata...";
+      const finalBlob = await new Promise(r => canvas2.toBlob(r, 'image/jpeg', 0.98));
+      const finalUrl = await stripAndInjectEXIF(finalBlob);
+      
+      bar.style.width = "100%";
+      status.innerText = "Reconstruction Complete!";
+      downloadBtn.href = finalUrl;
+      downloadBtn.download = "reconstructed_hd.jpg";
       downloadBtn.classList.remove('hidden');
-      canvas.classList.remove('hidden');
-      updateProgress(100, "Done! Disruption Complete.");
     }
 
-    function updateProgress(percent, text) {
-      progress.style.width = `${percent}%`;
-      status.innerText = `Status: ${text}`;
-    }
-
-    // Adversarial Glitch Shatter Filter
-    function applyPixelGlitchShatter(context, w, h) {
-      const imgData = context.getImageData(0, 0, w, h);
-      const data = imgData.data;
-      const copy = new Uint8ClampedArray(data);
-
-      for (let y = 0; y < h; y += 40) {
-        const shiftX = (Math.random() > 0.5 ? 1 : -1) * Math.floor(Math.random() * 2);
-        for (let x = 0; x < w; x++) {
-          const targetX = Math.min(w - 1, Math.max(0, x + shiftX));
-          for (let row = 0; row < 40 && y + row < h; row++) {
-            const srcIdx = ((y + row) * w + x) * 4;
-            const targetIdx = ((y + row) * w + targetX) * 4;
-
-            data[targetIdx] = copy[srcIdx];
-            data[targetIdx + 1] = copy[srcIdx + 1];
-            data[targetIdx + 2] = copy[srcIdx + 2];
-          }
-        }
-      }
-      context.putImageData(imgData, 0, 0);
-    }
-
-    function applyFrequencyNoise(context, w, h) {
-      const imgData = context.getImageData(0, 0, w, h);
-      const data = imgData.data;
-
+    function applyHighFrequencyNoise(ctx, w, h) {
+      const d = ctx.getImageData(0,0,w,h), data = d.data;
       for (let i = 0; i < data.length; i += 4) {
-        const noise = (Math.random() - 0.5) * 8.5;
-        data[i] = Math.min(255, Math.max(0, data[i] + noise));
-        data[i+1] = Math.min(255, Math.max(0, data[i+1] + noise));
-        data[i+2] = Math.min(255, Math.max(0, data[i+2] + noise));
+        let n = (Math.random() - 0.5) * 8;
+        data[i] += n; data[i+1] += n; data[i+2] += n;
       }
-      context.putImageData(imgData, 0, 0);
+      ctx.putImageData(d, 0, 0);
     }
 
-    function injectCanonEXIF(data) {
-      const zer = {
-        [piexif.ImageIFD.Make]: "Canon",
-        [piexif.ImageIFD.Model]: "Canon EOS R5",
-        [piexif.ImageIFD.Software]: "Adobe Photoshop 2024 (Windows)"
-      };
-      const exi = {
-        [piexif.ExifIFD.LensModel]: "RF50mm F1.2 L USM",
-        [piexif.ExifIFD.ISOSpeedRatings]: 100
-      };
-      return piexif.insert(piexif.dump({"0th": zer, "Exif": exi}), data);
+    async function stripAndInjectEXIF(blob) {
+      const arrayBuffer = await blob.arrayBuffer();
+      const bytes = new Uint8Array(arrayBuffer);
+      
+      // Create new exif
+      const zer = { [piexif.ImageIFD.Make]: "Canon", [piexif.ImageIFD.Model]: "Canon EOS R5", [piexif.ImageIFD.Software]: "Adobe Photoshop 2024" };
+      const exif = { [piexif.ExifIFD.DateTimeOriginal]: "2026:08:11 18:00:00" };
+      const exifBytes = piexif.dump({"0th": zer, "Exif": exif});
+      
+      const newJpeg = piexif.insert(exifBytes, URL.createObjectURL(blob));
+      return newJpeg;
     }
   </script>
 </body>
