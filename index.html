@@ -3,236 +3,134 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AuraShield Pro - HD Upscale & Anti-AI Engine</title>
-  <!-- Tailwind CSS -->
+  <title>AuraShield Master - HD Stealth</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Piexifjs for EXIF Injection -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-    body { background: #02040a; color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; min-height: 100vh; }
+    body { background: #02040a; color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; }
     .glass-panel { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
-    .btn-gradient { background: linear-gradient(135deg, #6366f1, #a855f7); transition: all 0.3s ease; }
-    .btn-gradient:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4); }
+    .btn-gradient { background: linear-gradient(135deg, #6366f1, #a855f7); transition: 0.3s; }
   </style>
 </head>
-<body class="p-4 md:p-8 flex flex-col items-center justify-center">
+<body class="p-4 md:p-8">
 
-  <div class="max-w-4xl w-full mx-auto">
-    <!-- Header -->
-    <header class="text-center mb-8">
-      <h1 class="text-3xl md:text-5xl font-black bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-        AuraShield HD Engine
-      </h1>
-      <p class="text-slate-400 text-xs md:text-sm mt-2">
-        Auto 2x HD Upscaling • Sharp Detail Restoration • 2-5 MB Output Target
-      </p>
-    </header>
+<div class="max-w-6xl mx-auto">
+  <header class="text-center mb-8">
+    <h1 class="text-4xl font-black bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">AuraShield Master Engine</h1>
+    <p class="text-slate-400 text-sm">2x Upscale + Spatial Crop + Anti-AI Signature Removal</p>
+  </header>
 
-    <!-- Main App Container -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Left: Controls -->
+    <div class="glass-panel p-6 rounded-3xl">
+      <div id="dropzone" class="border-2 border-dashed border-slate-600 rounded-2xl p-6 flex flex-col items-center justify-center cursor-pointer hover:border-cyan-400 transition-all text-center">
+        <i data-lucide="upload-cloud" class="w-10 h-10 text-cyan-400 mb-2"></i>
+        <p class="font-bold text-sm">Upload Photo</p>
+        <input type="file" id="fileInput" accept="image/*" class="hidden" />
+      </div>
       
-      <!-- Upload Box & Status -->
-      <div class="glass-panel p-6 rounded-3xl flex flex-col justify-between">
-        <div>
-          <div id="dropzone" class="border-2 border-dashed border-slate-600/80 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-cyan-400 transition-all text-center min-h-[200px]">
-            <i data-lucide="upload-cloud" class="w-12 h-12 text-cyan-400 mb-3"></i>
-            <p class="text-base font-bold text-slate-200">Click or Drag Photo Here</p>
-            <p class="text-xs text-slate-400 mt-1">Automatically upscales & sharpens image</p>
-            <input type="file" id="fileInput" accept="image/*" class="hidden" />
-          </div>
-
-          <!-- Configuration Indicator -->
-          <div class="mt-6 space-y-2 text-xs text-slate-400">
-            <div class="flex justify-between p-2 rounded-lg bg-slate-800/40">
-              <span>Resolution Boost:</span>
-              <span class="text-cyan-400 font-bold">2X HD Upscale</span>
-            </div>
-            <div class="flex justify-between p-2 rounded-lg bg-slate-800/40">
-              <span>Output Quality:</span>
-              <span class="text-emerald-400 font-bold">0.98 Maximum JPG</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-6 space-y-2">
-          <div id="status" class="text-xs font-mono text-slate-400">Status: Ready</div>
-          <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
-            <div id="progressBar" class="h-full bg-gradient-to-r from-cyan-400 to-purple-500 w-0 transition-all duration-300"></div>
-          </div>
+      <div class="mt-8 space-y-3">
+        <h3 class="text-xs font-bold text-slate-500 uppercase">Pipeline Status</h3>
+        <div id="steps" class="space-y-2">
+            <div class="flex justify-between text-xs p-2 bg-slate-800 rounded"><span>Spatial & Crop</span> <span id="s1" class="text-slate-500">Wait</span></div>
+            <div class="flex justify-between text-xs p-2 bg-slate-800 rounded"><span>2x HD Upscale</span> <span id="s2" class="text-slate-500">Wait</span></div>
+            <div class="flex justify-between text-xs p-2 bg-slate-800 rounded"><span>Optical Effects</span> <span id="s3" class="text-slate-500">Wait</span></div>
+            <div class="flex justify-between text-xs p-2 bg-slate-800 rounded"><span>Double Compression</span> <span id="s4" class="text-slate-500">Wait</span></div>
+            <div class="flex justify-between text-xs p-2 bg-slate-800 rounded"><span>EXIF Inject</span> <span id="s5" class="text-slate-500">Wait</span></div>
         </div>
       </div>
+    </div>
 
-      <!-- Preview Box -->
-      <div class="glass-panel p-6 rounded-3xl flex flex-col items-center justify-center min-h-[300px]">
-        <canvas id="canvas" class="hidden rounded-xl max-w-full h-auto max-h-[350px] shadow-2xl border border-slate-700/50"></canvas>
-        
-        <div id="placeholder" class="text-slate-500 text-center py-12">
-          <i data-lucide="image" class="w-12 h-12 mx-auto mb-2 opacity-40"></i>
-          <p class="text-sm font-semibold">HD Preview will appear here</p>
+    <!-- Right: Preview -->
+    <div class="lg:col-span-2 glass-panel p-6 rounded-3xl flex flex-col items-center">
+        <canvas id="canvas" class="hidden rounded-xl shadow-2xl max-h-[500px]"></canvas>
+        <div id="placeholder" class="py-20 text-slate-600 text-center">
+            <i data-lucide="image" class="w-16 h-16 mx-auto mb-4 opacity-30"></i>
+            <p>Upload a photo to start HD processing</p>
         </div>
-
-        <a id="downloadBtn" class="hidden btn-gradient mt-6 w-full py-4 rounded-xl font-bold text-center text-white shadow-lg flex items-center justify-center gap-2">
-          <i data-lucide="download" class="w-5 h-5"></i>
-          Download HD Photo (.jpg)
-        </a>
-      </div>
-
+        <a id="downloadBtn" class="hidden btn-gradient mt-6 w-full py-4 rounded-xl font-bold text-center text-white">Download HD Stealth Photo</a>
     </div>
   </div>
+</div>
 
-  <script>
+<script>
     lucide.createIcons();
-
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    const fileInput = document.getElementById('fileInput');
-    const dropzone = document.getElementById('dropzone');
+    const canvas = document.getElementById('canvas'), ctx = canvas.getContext('2d');
+    const fileInput = document.getElementById('fileInput'), dropzone = document.getElementById('dropzone');
     const downloadBtn = document.getElementById('downloadBtn');
-    const progressBar = document.getElementById('progressBar');
-    const status = document.getElementById('status');
 
     dropzone.onclick = () => fileInput.click();
-    dropzone.ondragover = (e) => { e.preventDefault(); dropzone.classList.add('border-cyan-400'); };
-    dropzone.ondragleave = () => dropzone.classList.remove('border-cyan-400');
-    dropzone.ondrop = (e) => {
-      e.preventDefault();
-      dropzone.classList.remove('border-cyan-400');
-      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-    };
-
-    fileInput.onchange = (e) => {
-      if (e.target.files.length) handleFile(e.target.files[0]);
-    };
+    fileInput.onchange = (e) => handleFile(e.target.files[0]);
 
     async function handleFile(file) {
-      if (!file.type.match('image.*')) return;
-
-      const rawFileName = file.name.substring(0, file.name.lastIndexOf('.')) || "hd_photo";
-      const img = new Image();
-      img.src = URL.createObjectURL(file);
-      await img.decode();
-      
-      runHDUpscalePipeline(img, rawFileName);
+        const img = new Image();
+        img.src = URL.createObjectURL(file);
+        await img.decode();
+        runMasterPipeline(img, file.name);
     }
 
-    async function runHDUpscalePipeline(img, fileName) {
-      updateProgress(10, "Cropping 3.5% Boundary...");
+    async function runMasterPipeline(img, fileName) {
+        const updateStep = (id, text) => { document.getElementById(id).innerText = text; document.getElementById(id).className = "text-emerald-400 font-bold"; };
+        
+        // 1. Crop
+        updateStep('s1', 'Done');
+        const margin = 0.035, w = img.width, h = img.height;
+        const cx = w*margin, cy = h*margin, cw = w*(1-margin*2), ch = h*(1-margin*2);
 
-      const origW = img.width;
-      const origH = img.height;
-      const margin = 0.035;
+        // 2. Upscale (2x)
+        updateStep('s2', 'Done');
+        canvas.width = cw * 2; canvas.height = ch * 2;
+        ctx.drawImage(img, cx, cy, cw, ch, 0, 0, cw * 2, ch * 2);
 
-      const cropX = Math.floor(origW * margin);
-      const cropY = Math.floor(origH * margin);
-      const cropW = origW - (cropX * 2);
-      const cropH = origH - (cropY * 2);
+        // 3. Optical Effects (Sharpen, Aberration, Vignette)
+        updateStep('s3', 'Done');
+        applySharpen(ctx, canvas.width, canvas.height);
+        applyAberration(ctx, canvas.width, canvas.height);
+        applyVignette(ctx, canvas.width, canvas.height);
 
-      // STEP 1: 2X Resolution Upscaling
-      updateProgress(30, "Upscaling 2X Resolution...");
-      const upscaleFactor = 2.0; // Multiplies canvas width and height by 2x
-      const targetW = Math.floor(cropW * upscaleFactor);
-      const targetH = Math.floor(cropH * upscaleFactor);
+        // 4. Double Compression
+        updateStep('s4', 'Done');
+        const pass1 = canvas.toDataURL('image/jpeg', 0.85);
+        const pass2 = await new Promise(r => { 
+            const i = new Image(); i.onload = () => { ctx.drawImage(i,0,0); r(canvas.toDataURL('image/jpeg', 0.98)); }; i.src = pass1; 
+        });
 
-      canvas.width = targetW;
-      canvas.height = targetH;
+        // 5. EXIF
+        updateStep('s5', 'Done');
+        const final = injectAutoEXIF(pass2);
 
-      // Enable High-Quality Image Smoothing (Bicubic-like interpolator)
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
-
-      // Draw cropped image onto upscaled canvas
-      ctx.drawImage(img, cropX, cropY, cropW, cropH, 0, 0, targetW, targetH);
-
-      // STEP 2: Sharpening Pass (Removes Blurriness)
-      updateProgress(55, "Applying Detail Sharpening Pass...");
-      applySharpenMatrix(ctx, targetW, targetH);
-
-      // STEP 3: ISO Sensor Grain (Increases Detail & File Size)
-      updateProgress(75, "Injecting ISO Sensor Grain...");
-      applySensorGrain(ctx, targetW, targetH);
-
-      // STEP 4: High-Quality Compression (Targeting 2-5 MB)
-      updateProgress(90, "Encoding High-Quality JPEG (0.98)...");
-      const highQualityJpeg = canvas.toDataURL('image/jpeg', 0.98);
-
-      // STEP 5: EXIF Injection
-      const finalImage = injectAutoEXIF(highQualityJpeg);
-
-      // Update UI & Download Button
-      downloadBtn.href = finalImage;
-      downloadBtn.download = `${fileName}_hd_stealth.jpg`;
-      downloadBtn.classList.remove('hidden');
-      document.getElementById('placeholder').classList.add('hidden');
-      canvas.classList.remove('hidden');
-      
-      updateProgress(100, "Done! File Upscaled & Ready.");
+        downloadBtn.href = final;
+        downloadBtn.download = fileName.split('.')[0] + "_hd_real.jpg";
+        downloadBtn.classList.remove('hidden');
+        document.getElementById('placeholder').classList.add('hidden');
+        canvas.classList.remove('hidden');
     }
 
-    function updateProgress(percent, text) {
-      progressBar.style.width = `${percent}%`;
-      status.innerText = `Status: ${text}`;
-    }
-
-    // High-Pass Sharpen Convolution Matrix
-    function applySharpenMatrix(context, w, h) {
-      const imgData = context.getImageData(0, 0, w, h);
-      const data = imgData.data;
-      const copy = new Uint8ClampedArray(data);
-      const w4 = w * 4;
-
-      for (let i = w4 + 4; i < data.length - w4 - 4; i += 4) {
-        for (let j = 0; j < 3; j++) { // Red, Green, Blue
-          // Convolution Kernel: Center 5, Surroundings -1
-          const sharpVal = copy[i + j] * 5 
-            - copy[i - 4 + j] 
-            - copy[i + 4 + j] 
-            - copy[i - w4 + j] 
-            - copy[i + w4 + j];
-
-          data[i + j] = Math.min(255, Math.max(0, sharpVal));
+    function applySharpen(ctx, w, h) {
+        const d = ctx.getImageData(0,0,w,h), data = d.data, copy = new Uint8ClampedArray(data);
+        for (let i = w*4 + 4; i < data.length - w*4 - 4; i += 4) {
+            for (let j=0; j<3; j++) data[i+j] = copy[i+j]*5 - copy[i-4+j] - copy[i+4+j] - copy[i-w*4+j] - copy[i+w*4+j];
         }
-      }
-      context.putImageData(imgData, 0, 0);
+        ctx.putImageData(d, 0, 0);
     }
 
-    // Multi-Channel Sensor Grain (Prevents JPEG Compression, Keeping File Size > 2MB)
-    function applySensorGrain(context, w, h) {
-      const imgData = context.getImageData(0, 0, w, h);
-      const data = imgData.data;
-
-      for (let i = 0; i < data.length; i += 4) {
-        const noise = (Math.random() - 0.5) * 6.5;
-        data[i] = Math.min(255, Math.max(0, data[i] + noise));
-        data[i+1] = Math.min(255, Math.max(0, data[i+1] + noise));
-        data[i+2] = Math.min(255, Math.max(0, data[i+2] + noise));
-      }
-      context.putImageData(imgData, 0, 0);
+    function applyAberration(ctx, w, h) {
+        const d = ctx.getImageData(0,0,w,h), data = d.data, copy = new Uint8ClampedArray(data);
+        for(let i=0; i<data.length; i+=4) { data[i] = copy[i+4] || copy[i]; data[i+2] = copy[i-4] || copy[i]; }
+        ctx.putImageData(d, 0, 0);
     }
 
-    // EXIF Profile Injection (Canon EOS R5)
-    function injectAutoEXIF(jpegDataUrl) {
-      const zeroth = {};
-      const exif = {};
-
-      const now = new Date();
-      const dateStr = `${now.getFullYear()}:${String(now.getMonth()+1).padStart(2,'0')}:${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
-
-      zeroth[piexif.ImageIFD.Make] = "Canon";
-      zeroth[piexif.ImageIFD.Model] = "Canon EOS R5";
-      zeroth[piexif.ImageIFD.Software] = "Digital Photo Professional 4.15";
-      
-      exif[piexif.ExifIFD.LensModel] = "RF50mm F1.2 L USM";
-      exif[piexif.ExifIFD.FNumber] = [14, 10];
-      exif[piexif.ExifIFD.ISOSpeedRatings] = 100;
-      exif[piexif.ExifIFD.DateTimeOriginal] = dateStr;
-
-      const exifObj = { "0th": zeroth, "Exif": exif };
-      const exifBytes = piexif.dump(exifObj);
-      return piexif.insert(exifBytes, jpegDataUrl);
+    function applyVignette(ctx, w, h) {
+        const grad = ctx.createRadialGradient(w/2, h/2, w*0.3, w/2, h/2, w*0.7);
+        grad.addColorStop(0, 'rgba(0,0,0,0)'); grad.addColorStop(1, 'rgba(0,0,0,0.15)');
+        ctx.fillStyle = grad; ctx.fillRect(0,0,w,h);
     }
-  </script>
+
+    function injectAutoEXIF(data) {
+        const exif = { "0th": { [piexif.ImageIFD.Make]: "Canon", [piexif.ImageIFD.Model]: "Canon EOS R5" } };
+        return piexif.insert(piexif.dump(exif), data);
+    }
+</script>
 </body>
 </html>
