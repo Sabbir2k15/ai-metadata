@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>ExifCleaner Pro — Fully Fixed Engine</title>
+  <title>ExifCleaner Pro — Bulletproof Engine</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
@@ -293,14 +293,20 @@
       }
 
       try {
-        status.innerText = "Injecting Custom EXIF...";
-        bar.style.width = "60%";
+        status.innerText = "Processing Image Canvas...";
+        bar.style.width = "50%";
 
+        // Ensure canvas renders as pristine JPEG
         canvas.width = loadedImage.width;
         canvas.height = loadedImage.height;
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(loadedImage, 0, 0);
 
-        const base64Jpeg = canvas.toDataURL('image/jpeg', 0.96);
+        status.innerText = "Injecting Custom EXIF...";
+        bar.style.width = "80%";
+
+        const base64Jpeg = canvas.toDataURL('image/jpeg', 0.95);
         const finalJpeg = buildAndInjectEXIF(base64Jpeg);
 
         bar.style.width = "100%";
@@ -312,12 +318,11 @@
 
       } catch (err) {
         console.error(err);
-        status.innerText = "Error Injecting Metadata";
+        status.innerText = "Error: Failed to process metadata";
         status.className = "text-[10px] font-mono font-bold px-2.5 py-1 rounded bg-red-950 text-red-400";
       }
     }
 
-    // Custom Safe DegToDec Converter
     function degToRational(deg) {
       const absolute = Math.abs(deg);
       const degrees = Math.floor(absolute);
@@ -332,17 +337,17 @@
       ];
     }
 
-    function buildAndInjectEXIF(base64Jpeg) {
+    function buildAndInjectEXIF(cleanBase64Jpeg) {
       const zer = {};
       const exif = {};
       const gps = {};
 
-      const make = document.getElementById('exifMake').value;
-      const model = document.getElementById('exifModel').value;
-      const artist = document.getElementById('exifArtist').value;
-      const copyright = document.getElementById('exifCopyright').value;
-      const software = document.getElementById('exifSoftware').value;
-      const dateStr = document.getElementById('exifDate').value;
+      const make = document.getElementById('exifMake').value.trim();
+      const model = document.getElementById('exifModel').value.trim();
+      const artist = document.getElementById('exifArtist').value.trim();
+      const copyright = document.getElementById('exifCopyright').value.trim();
+      const software = document.getElementById('exifSoftware').value.trim();
+      const dateStr = document.getElementById('exifDate').value.trim();
       const lat = parseFloat(document.getElementById('exifLat').value) || 0;
       const lng = parseFloat(document.getElementById('exifLng').value) || 0;
 
@@ -357,7 +362,6 @@
         exif[piexif.ExifIFD.DateTimeDigitized] = dateStr;
       }
 
-      // Safe GPS Mapping
       if (lat !== 0 || lng !== 0) {
         gps[piexif.GPSIFD.GPSLatitudeRef] = lat >= 0 ? "N" : "S";
         gps[piexif.GPSIFD.GPSLatitude] = degToRational(lat);
@@ -368,9 +372,8 @@
       const exifObj = { "0th": zer, "Exif": exif, "GPS": gps };
       const exifBytes = piexif.dump(exifObj);
       
-      // Strip old EXIF first to avoid conflicts, then insert new EXIF
-      const cleanJpeg = piexif.remove(base64Jpeg);
-      return piexif.insert(exifBytes, cleanJpeg);
+      // Inject EXIF safely without relying on piexif.remove
+      return piexif.insert(exifBytes, cleanBase64Jpeg);
     }
   </script>
 </body>
