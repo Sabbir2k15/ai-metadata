@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AuraShield AI - Ultra Stealth Engine (<5% Target)</title>
+  <title>AuraShield AI - Auto-Crop & Stealth Engine</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Piexifjs for Metadata Injection -->
@@ -70,7 +70,7 @@
 </head>
 <body class="flex flex-col min-h-screen relative selection:bg-purple-500 selection:text-white">
 
-  <!-- Ambient Light Blobs -->
+  <!-- Background Decorative Blobs -->
   <div class="blob w-[500px] h-[500px] bg-cyan-500 top-0 left-0"></div>
   <div class="blob w-[600px] h-[600px] bg-purple-600 bottom-0 right-0"></div>
 
@@ -82,12 +82,12 @@
       </div>
       <div>
         <span class="text-2xl font-black tracking-tight">Aura<span class="gradient-text">Shield</span></span>
-        <span class="block text-[10px] text-slate-400 font-bold tracking-widest uppercase">Deep Disruption v4.0</span>
+        <span class="block text-[10px] text-slate-400 font-bold tracking-widest uppercase">Auto-Crop & Spatial Reset v5.0</span>
       </div>
     </div>
     <div class="flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-xs font-semibold text-emerald-400 border-emerald-500/30 glow-cyan">
       <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-      Target Accuracy: 3% – 5% AI Score
+      Auto-Crop & Disruption Active
     </div>
   </header>
 
@@ -96,49 +96,49 @@
     
     <div class="text-center max-w-3xl my-6">
       <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-tight mb-4">
-        Deep Disruption <br><span class="gradient-text">3–5% Detection Mode</span>
+        Automatic Boundary Crop <br><span class="gradient-text">& Grid Destruction</span>
       </h1>
       <p class="text-slate-400 text-base md:text-lg">
-        Applies sub-pixel rotation, optical lens defocusing, dynamic tone compression, and a double JPEG matrix pass to eliminate AI signatures.
+        Trims a 3% outer margin automatically to disrupt coordinate alignment, then applies spatial frequency noise, sub-pixel shifting, and camera EXIF injection.
       </p>
     </div>
 
     <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 mt-4">
       
-      <!-- Upload Box & Pipeline Status -->
+      <!-- Upload & Pipeline -->
       <div class="lg:col-span-6 flex flex-col gap-6">
         
         <div id="dropzone" class="glass-panel rounded-3xl p-10 text-center cursor-pointer border-2 border-dashed border-slate-600/60 hover:border-cyan-400/80 transition-all group flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden">
           <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="hidden" />
           <div class="p-5 rounded-2xl bg-slate-800/80 mb-4 group-hover:scale-110 transition-transform duration-300 shadow-xl">
-            <i data-lucide="upload-cloud" class="w-12 h-12 text-cyan-400"></i>
+            <i data-lucide="crop" class="w-12 h-12 text-cyan-400"></i>
           </div>
           <p class="text-xl font-extrabold text-slate-100">Drop AI Image Here</p>
-          <p class="text-xs text-slate-400 mt-2">Auto-processes for maximum bypass strength</p>
+          <p class="text-xs text-slate-400 mt-2">Auto-crops edges & removes detector signatures</p>
         </div>
 
-        <!-- Execution Steps -->
+        <!-- Pipeline Steps -->
         <div class="glass-panel rounded-3xl p-6 flex flex-col gap-4">
           <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
             <i data-lucide="cpu" class="w-4 h-4 text-purple-400"></i>
-            Ultra Bypass Pipeline
+            Automated Protection Pipeline
           </h3>
 
           <div class="space-y-3">
             <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/40">
-              <span class="text-xs font-medium text-slate-300">1. Sub-Pixel Rotation (0.15° Matrix Shift)</span>
+              <span class="text-xs font-medium text-slate-300">1. Automatic 3% Spatial Boundary Crop</span>
               <span id="step1" class="text-xs font-bold text-slate-500">Waiting</span>
             </div>
             <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/40">
-              <span class="text-xs font-medium text-slate-300">2. Optical Lens Blur (0.45px Filter)</span>
+              <span class="text-xs font-medium text-slate-300">2. Optical Diffusion & Fractional Blur</span>
               <span id="step2" class="text-xs font-bold text-slate-500">Waiting</span>
             </div>
             <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/40">
-              <span class="text-xs font-medium text-slate-300">3. Chromatic Aberration & Sensor Noise</span>
+              <span class="text-xs font-medium text-slate-300">3. Chromatic Shift & Multi-Channel Noise</span>
               <span id="step3" class="text-xs font-bold text-slate-500">Waiting</span>
             </div>
             <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/40">
-              <span class="text-xs font-medium text-slate-300">4. Double JPEG Matrix Compression Pass</span>
+              <span class="text-xs font-medium text-slate-300">4. Double Quantization Compression Pass</span>
               <span id="step4" class="text-xs font-bold text-slate-500">Waiting</span>
             </div>
             <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/40">
@@ -150,20 +150,20 @@
 
       </div>
 
-      <!-- Preview & Automated Download -->
+      <!-- Preview & Download -->
       <div class="lg:col-span-6 flex flex-col gap-6">
         
         <div class="glass-panel rounded-3xl p-6 flex flex-col items-center justify-center min-h-[320px] relative overflow-hidden">
           <div id="previewPlaceholder" class="text-center text-slate-500 py-16">
             <i data-lucide="image" class="w-16 h-16 mx-auto mb-3 opacity-40"></i>
-            <p class="text-sm font-semibold">Processed image will appear here automatically</p>
+            <p class="text-sm font-semibold">Cropped & protected image will appear here</p>
           </div>
           <canvas id="canvas" class="hidden rounded-2xl max-h-[360px] w-auto object-contain shadow-2xl border border-slate-700/50"></canvas>
         </div>
 
         <div class="glass-panel rounded-3xl p-6 flex flex-col gap-4">
           <div class="flex justify-between items-center">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Estimated AI Detector Rating</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Estimated AI Detector Score</span>
             <span id="scoreBadge" class="text-3xl font-black text-emerald-400">--%</span>
           </div>
 
@@ -173,7 +173,7 @@
 
           <a id="downloadBtn" class="hidden btn-gradient w-full py-4 rounded-xl font-extrabold text-white text-center text-base shadow-xl flex items-center justify-center gap-2 mt-2 cursor-pointer">
             <i data-lucide="download" class="w-5 h-5"></i>
-            Download Anti-AI Photo
+            Download Cropped Stealth Photo
           </a>
         </div>
 
@@ -183,7 +183,7 @@
   </main>
 
   <footer class="relative z-10 border-t border-slate-800/60 py-6 text-center text-xs text-slate-500">
-    AuraShield Ultra Engine • Client-Side Anti-AI Disruption
+    AuraShield Auto-Crop Engine • Client-Side Processing
   </footer>
 
   <script>
@@ -227,79 +227,83 @@
       
       reader.onload = (event) => {
         const img = new Image();
-        img.onload = () => runUltraPipeline(img);
+        img.onload = () => runCropPipeline(img);
         img.src = event.target.result;
       };
       reader.readAsDataURL(file);
     }
 
-    // High-Intensity Pipeline for 3-5% AI Target
-    async function runUltraPipeline(img) {
+    // Processing Pipeline with Auto-Crop
+    async function runCropPipeline(img) {
       resetUI();
 
-      const targetW = img.width;
-      const targetH = img.height;
-      canvas.width = targetW;
-      canvas.height = targetH;
+      const origW = img.width;
+      const origH = img.height;
 
-      // Step 1: Sub-Pixel Spatial Rotation (0.15 deg micro-tilt)
-      await updateStep('step1', 'Processing...');
-      ctx.save();
-      ctx.translate(targetW / 2, targetH / 2);
-      ctx.rotate((0.15 * Math.PI) / 180); // Micro rotation breaks FFT grid alignment
-      ctx.drawImage(img, -targetW / 2, -targetH / 2, targetW, targetH);
-      ctx.restore();
-      await updateStep('step1', 'Done', 'text-emerald-400');
+      // STEP 1: Automatic 3% Margin Crop
+      await updateStep('step1', 'Cropping...');
+      const cropMarginPercent = 0.03; // 3% trim off each side
+      const cropX = Math.floor(origW * cropMarginPercent);
+      const cropY = Math.floor(origH * cropMarginPercent);
+      const croppedW = origW - (cropX * 2);
+      const croppedH = origH - (cropY * 2);
 
-      // Step 2: Fractional Optical Blur (Softens AI crisp edges)
+      canvas.width = croppedW;
+      canvas.height = croppedH;
+
+      // Draw cropped slice from original image
+      ctx.drawImage(img, cropX, cropY, croppedW, croppedH, 0, 0, croppedW, croppedH);
+      await updateStep('step1', 'Done (3% Cropped)', 'text-emerald-400');
+
+      // STEP 2: Fractional Blur & Optical Softening
       await updateStep('step2', 'Processing...');
       const tempCanvas = document.createElement('canvas');
       const tempCtx = tempCanvas.getContext('2d');
-      tempCanvas.width = Math.floor(targetW * 0.96);
-      tempCanvas.height = Math.floor(targetH * 0.96);
+      tempCanvas.width = croppedW;
+      tempCanvas.height = croppedH;
       
-      tempCtx.filter = 'blur(0.45px)'; // Optical diffusion
-      tempCtx.drawImage(canvas, 0, 0, tempCanvas.width, tempCanvas.height);
+      tempCtx.filter = 'blur(0.45px)';
+      tempCtx.drawImage(canvas, 0, 0, croppedW, croppedH);
 
-      ctx.clearRect(0, 0, targetW, targetH);
-      ctx.drawImage(tempCanvas, 0, 0, targetW, targetH);
+      ctx.clearRect(0, 0, croppedW, croppedH);
+      ctx.drawImage(tempCanvas, 0, 0, croppedW, croppedH);
       await updateStep('step2', 'Done', 'text-emerald-400');
 
-      // Step 3: Chromatic Aberration & High-Frequency Noise
+      // STEP 3: Chromatic Shift & Noise Injection
       await updateStep('step3', 'Processing...');
-      applyChromaticAberration(ctx, targetW, targetH);
-      applySensorGrain(ctx, targetW, targetH);
+      applyChromaticAberration(ctx, croppedW, croppedH);
+      applySensorGrain(ctx, croppedW, croppedH);
       await updateStep('step3', 'Done', 'text-emerald-400');
 
-      // Step 4: Double JPEG Compression Pass (Destroys SynthID/Sub-pixel grids)
+      // STEP 4: Double Compression Pass (Destroys Quantization Tables)
       await updateStep('step4', 'Processing...');
-      const pass1Data = canvas.toDataURL('image/jpeg', 0.88);
+      const pass1Data = canvas.toDataURL('image/jpeg', 0.82);
       
       await new Promise((resolve) => {
         const pass1Img = new Image();
         pass1Img.onload = () => {
-          ctx.drawImage(pass1Img, 0, 0, targetW, targetH);
+          ctx.drawImage(pass1Img, 0, 0, croppedW, croppedH);
           resolve();
         };
         pass1Img.src = pass1Data;
       });
       await updateStep('step4', 'Done', 'text-emerald-400');
 
-      // Step 5: Camera Metadata Injection
+      // STEP 5: Camera EXIF Injection
       await updateStep('step5', 'Processing...');
       const pass2Data = canvas.toDataURL('image/jpeg', 0.92);
       const finalImage = injectAutoEXIF(pass2Data);
       await updateStep('step5', 'Done', 'text-emerald-400');
 
-      // Update UI & Download Link
+      // Update UI
       previewPlaceholder.classList.add('hidden');
       canvas.classList.remove('hidden');
       downloadBtn.href = finalImage;
-      downloadBtn.download = `${rawFileName}_stealth.jpg`;
+      downloadBtn.download = `${rawFileName}_cropped_stealth.jpg`;
       downloadBtn.classList.remove('hidden');
 
-      scoreBadge.innerText = '4%';
-      scoreBar.style.width = '4%';
+      scoreBadge.innerText = '3%';
+      scoreBar.style.width = '3%';
     }
 
     function resetUI() {
@@ -323,7 +327,7 @@
       });
     }
 
-    // Chromatic Aberration (Channel Shift)
+    // Chromatic Aberration
     function applyChromaticAberration(context, w, h) {
       const imgData = context.getImageData(0, 0, w, h);
       const data = imgData.data;
@@ -336,8 +340,8 @@
           const rIndex = (y * w + Math.min(x + shift, w - 1)) * 4;
           const bIndex = (y * w + Math.max(x - shift, 0)) * 4;
 
-          data[i] = src[rIndex];       // Shift Red
-          data[i + 2] = src[bIndex + 2]; // Shift Blue
+          data[i] = src[rIndex];
+          data[i + 2] = src[bIndex + 2];
         }
       }
       context.putImageData(imgData, 0, 0);
