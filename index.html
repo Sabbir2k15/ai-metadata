@@ -3,19 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AuraShield Pro — Metadata Editor & Exif Cleaner</title>
+  <title>ExifCleaner Pro — Fully Fixed Engine</title>
   
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Piexifjs for Advanced EXIF Manipulation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -44,13 +40,13 @@
       background: linear-gradient(135deg, #0284c7 0%, #6366f1 50%, #9333ea 100%);
     }
 
-    input, select {
+    input {
       background: rgba(15, 23, 42, 0.9) !important;
       border: 1px solid rgba(255, 255, 255, 0.15) !important;
       color: #f8fafc !important;
     }
 
-    input:focus, select:focus {
+    input:focus {
       border-color: #38bdf8 !important;
       outline: none !important;
     }
@@ -58,7 +54,7 @@
     canvas {
       max-width: 100% !important;
       height: auto !important;
-      max-height: 40vh;
+      max-height: 38vh;
       object-fit: contain;
     }
   </style>
@@ -89,7 +85,7 @@
     <div class="text-center max-w-3xl mx-auto mb-8">
       <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight mb-3">
         Edit Metadata & <br class="hidden sm:inline" />
-        <span class="gradient-text">Unlock Advanced Workflows</span>
+        <span class="gradient-text">Unlock Pro Workflows</span>
       </h1>
       <p class="text-slate-400 text-xs sm:text-base max-w-xl mx-auto">
         Edit Camera, Date, GPS, Author, Software or Clean EXIF Data for Social Sharing, Marketplaces, and Portfolios.
@@ -98,11 +94,11 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
       
-      <!-- Upload & Metadata Control Panel -->
+      <!-- Upload & Control Panel -->
       <div class="lg:col-span-7 flex flex-col gap-6">
         
         <!-- Dropzone -->
-        <div id="dropzone" class="glass-panel rounded-3xl p-6 text-center cursor-pointer border-2 border-dashed border-slate-700 hover:border-cyan-400 transition-all group relative overflow-hidden flex flex-col items-center justify-center min-h-[160px]">
+        <div id="dropzone" class="glass-panel rounded-3xl p-6 text-center cursor-pointer border-2 border-dashed border-slate-700 hover:border-cyan-400 transition-all group relative overflow-hidden flex flex-col items-center justify-center min-h-[150px]">
           <input type="file" id="fileInput" accept="image/*" class="hidden" />
           <div class="p-3 rounded-2xl bg-slate-800/80 mb-2 group-hover:scale-110 transition-transform duration-300 border border-slate-700/50">
             <i data-lucide="upload-cloud" class="w-6 h-6 text-cyan-400"></i>
@@ -111,7 +107,7 @@
           <p class="text-xs text-slate-400">Supports JPG, WEBP, PNG</p>
         </div>
 
-        <!-- Presets Bar -->
+        <!-- Presets -->
         <div class="glass-panel rounded-3xl p-5 space-y-3">
           <label class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
             <i data-lucide="sliders" class="w-4 h-4 text-purple-400"></i>
@@ -133,7 +129,7 @@
           </div>
         </div>
 
-        <!-- EXIF Customization Form -->
+        <!-- EXIF Fields -->
         <div class="glass-panel rounded-3xl p-5 space-y-4">
           <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
             <i data-lucide="edit-3" class="w-4 h-4 text-cyan-400"></i>
@@ -166,22 +162,22 @@
               <input type="text" id="exifDate" value="2026:08:11 18:00:00" class="w-full p-2.5 rounded-xl">
             </div>
             <div>
-              <label class="block text-slate-400 mb-1 font-semibold">GPS Latitude (Ref: N)</label>
-              <input type="text" id="exifLat" value="37.7749" class="w-full p-2.5 rounded-xl">
+              <label class="block text-slate-400 mb-1 font-semibold">GPS Latitude</label>
+              <input type="text" id="exifLat" value="23.7104" class="w-full p-2.5 rounded-xl">
             </div>
             <div>
-              <label class="block text-slate-400 mb-1 font-semibold">GPS Longitude (Ref: W)</label>
-              <input type="text" id="exifLng" value="122.4194" class="w-full p-2.5 rounded-xl">
+              <label class="block text-slate-400 mb-1 font-semibold">GPS Longitude</label>
+              <input type="text" id="exifLng" value="90.4074" class="w-full p-2.5 rounded-xl">
             </div>
           </div>
         </div>
 
       </div>
 
-      <!-- Preview, Status & Export Panel -->
+      <!-- Preview & Export -->
       <div class="lg:col-span-5 flex flex-col gap-6">
         
-        <div class="glass-panel rounded-3xl p-4 flex flex-col items-center justify-center min-h-[260px] relative overflow-hidden">
+        <div class="glass-panel rounded-3xl p-4 flex flex-col items-center justify-center min-h-[240px] relative overflow-hidden">
           <div id="previewPlaceholder" class="text-center text-slate-500 py-12">
             <i data-lucide="image" class="w-12 h-12 mx-auto mb-2 opacity-30"></i>
             <p class="text-xs font-semibold">Processed Image Preview</p>
@@ -191,8 +187,8 @@
 
         <div class="glass-panel rounded-3xl p-5 space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Processing Mode</span>
-            <span id="status" class="text-[10px] font-mono font-bold px-2.5 py-1 rounded bg-slate-800 text-cyan-400">Ready</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Status</span>
+            <span id="status" class="text-[10px] font-mono font-bold px-2.5 py-1 rounded bg-slate-800 text-cyan-400">System Ready</span>
           </div>
 
           <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
@@ -200,7 +196,7 @@
           </div>
 
           <button id="processBtn" onclick="processImage()" class="btn-gradient w-full py-3.5 rounded-2xl font-extrabold text-white text-sm shadow-xl flex items-center justify-center gap-2 cursor-pointer transition hover:opacity-95">
-            <i data-lucide="zap" class="w-4 h-4"></i> Apply Metadata & Process
+            <i data-lucide="zap" class="w-4 h-4"></i> Apply EXIF & Process
           </button>
 
           <a id="downloadBtn" class="hidden btn-gradient w-full py-3.5 rounded-2xl font-extrabold text-white text-center text-sm shadow-xl flex items-center justify-center gap-2 cursor-pointer">
@@ -251,13 +247,13 @@
           canvas.height = loadedImage.height;
           ctx.drawImage(loadedImage, 0, 0);
           status.innerText = "Photo Loaded";
+          bar.style.width = "20%";
         };
         loadedImage.src = e.target.result;
       };
       reader.readAsDataURL(file);
     }
 
-    // Presets Manager
     function applyPreset(type) {
       if (type === 'clean') {
         document.getElementById('exifMake').value = "";
@@ -290,29 +286,50 @@
       }
     }
 
-    // Processing & Custom EXIF Injection
     async function processImage() {
       if (!loadedImage) {
         alert("Please upload an image first!");
         return;
       }
 
-      status.innerText = "Injecting Custom EXIF...";
-      bar.style.width = "50%";
+      try {
+        status.innerText = "Injecting Custom EXIF...";
+        bar.style.width = "60%";
 
-      canvas.width = loadedImage.width;
-      canvas.height = loadedImage.height;
-      ctx.drawImage(loadedImage, 0, 0);
+        canvas.width = loadedImage.width;
+        canvas.height = loadedImage.height;
+        ctx.drawImage(loadedImage, 0, 0);
 
-      const base64Jpeg = canvas.toDataURL('image/jpeg', 0.96);
-      const finalJpeg = buildAndInjectEXIF(base64Jpeg);
+        const base64Jpeg = canvas.toDataURL('image/jpeg', 0.96);
+        const finalJpeg = buildAndInjectEXIF(base64Jpeg);
 
-      bar.style.width = "100%";
-      status.innerText = "Metadata Updated!";
+        bar.style.width = "100%";
+        status.innerText = "Metadata Updated Successfully!";
 
-      downloadBtn.href = finalJpeg;
-      downloadBtn.download = `${rawFileName}_exif_edited.jpg`;
-      downloadBtn.classList.remove('hidden');
+        downloadBtn.href = finalJpeg;
+        downloadBtn.download = `${rawFileName}_exif_edited.jpg`;
+        downloadBtn.classList.remove('hidden');
+
+      } catch (err) {
+        console.error(err);
+        status.innerText = "Error Injecting Metadata";
+        status.className = "text-[10px] font-mono font-bold px-2.5 py-1 rounded bg-red-950 text-red-400";
+      }
+    }
+
+    // Custom Safe DegToDec Converter
+    function degToRational(deg) {
+      const absolute = Math.abs(deg);
+      const degrees = Math.floor(absolute);
+      const minutesNotTruncated = (absolute - degrees) * 60;
+      const minutes = Math.floor(minutesNotTruncated);
+      const seconds = Math.floor((minutesNotTruncated - minutes) * 60 * 100);
+
+      return [
+        [degrees, 1],
+        [minutes, 1],
+        [seconds, 100]
+      ];
     }
 
     function buildAndInjectEXIF(base64Jpeg) {
@@ -340,17 +357,20 @@
         exif[piexif.ExifIFD.DateTimeDigitized] = dateStr;
       }
 
-      // GPS Mapping
+      // Safe GPS Mapping
       if (lat !== 0 || lng !== 0) {
         gps[piexif.GPSIFD.GPSLatitudeRef] = lat >= 0 ? "N" : "S";
-        gps[piexif.GPSIFD.GPSLatitude] = piexif.GPSHelper.degToRmsConvert(Math.abs(lat));
+        gps[piexif.GPSIFD.GPSLatitude] = degToRational(lat);
         gps[piexif.GPSIFD.GPSLongitudeRef] = lng >= 0 ? "E" : "W";
-        gps[piexif.GPSIFD.GPSLongitude] = piexif.GPSHelper.degToRmsConvert(Math.abs(lng));
+        gps[piexif.GPSIFD.GPSLongitude] = degToRational(lng);
       }
 
       const exifObj = { "0th": zer, "Exif": exif, "GPS": gps };
       const exifBytes = piexif.dump(exifObj);
-      return piexif.insert(exifBytes, base64Jpeg);
+      
+      // Strip old EXIF first to avoid conflicts, then insert new EXIF
+      const cleanJpeg = piexif.remove(base64Jpeg);
+      return piexif.insert(exifBytes, cleanJpeg);
     }
   </script>
 </body>
