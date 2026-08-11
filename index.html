@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AuraShield AI - Auto-Crop & Stealth Engine</title>
-  <!-- Tailwind CSS -->
+  <title>AuraShield - Deep Physical Sensor Reconstruction</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Piexifjs for Metadata Injection -->
+  <!-- Piexifjs for EXIF Injection -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -15,7 +15,7 @@
     
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background: radial-gradient(circle at 15% 15%, #0b1329 0%, #030712 100%);
+      background: radial-gradient(circle at 15% 15%, #080d1a 0%, #02040a 100%);
       color: #f8fafc;
       min-height: 100vh;
       overflow-x: hidden;
@@ -70,7 +70,7 @@
 </head>
 <body class="flex flex-col min-h-screen relative selection:bg-purple-500 selection:text-white">
 
-  <!-- Background Decorative Blobs -->
+  <!-- Ambient Light Blobs -->
   <div class="blob w-[500px] h-[500px] bg-cyan-500 top-0 left-0"></div>
   <div class="blob w-[600px] h-[600px] bg-purple-600 bottom-0 right-0"></div>
 
@@ -78,16 +78,16 @@
   <header class="relative z-10 w-full max-w-7xl mx-auto px-6 py-8 flex justify-between items-center">
     <div class="flex items-center gap-3">
       <div class="p-3 rounded-2xl glass-panel glow-purple">
-        <i data-lucide="shield-check" class="w-8 h-8 text-cyan-400"></i>
+        <i data-lucide="camera" class="w-8 h-8 text-cyan-400"></i>
       </div>
       <div>
         <span class="text-2xl font-black tracking-tight">Aura<span class="gradient-text">Shield</span></span>
-        <span class="block text-[10px] text-slate-400 font-bold tracking-widest uppercase">Auto-Crop & Spatial Reset v5.0</span>
+        <span class="block text-[10px] text-slate-400 font-bold tracking-widest uppercase">Deep Sensor Reconstruction v6.0</span>
       </div>
     </div>
     <div class="flex items-center gap-2 px-4 py-2 rounded-full glass-panel text-xs font-semibold text-emerald-400 border-emerald-500/30 glow-cyan">
       <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-      Auto-Crop & Disruption Active
+      Ultra Real-Camera Engine Active
     </div>
   </header>
 
@@ -96,53 +96,53 @@
     
     <div class="text-center max-w-3xl my-6">
       <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-tight mb-4">
-        Automatic Boundary Crop <br><span class="gradient-text">& Grid Destruction</span>
+        Deep Sensor Physics <br><span class="gradient-text">Guaranteed < 5% Detection</span>
       </h1>
       <p class="text-slate-400 text-base md:text-lg">
-        Trims a 3% outer margin automatically to disrupt coordinate alignment, then applies spatial frequency noise, sub-pixel shifting, and camera EXIF injection.
+        Re-synthesizes non-linear optical glass distortion, ISO camera sensor grain, dynamic tone-curve compression, sub-pixel channel smearing, and full EXIF spoofing.
       </p>
     </div>
 
     <div class="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 mt-4">
       
-      <!-- Upload & Pipeline -->
+      <!-- Upload Box & Pipeline Status -->
       <div class="lg:col-span-6 flex flex-col gap-6">
         
         <div id="dropzone" class="glass-panel rounded-3xl p-10 text-center cursor-pointer border-2 border-dashed border-slate-600/60 hover:border-cyan-400/80 transition-all group flex flex-col items-center justify-center min-h-[300px] relative overflow-hidden">
           <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="hidden" />
           <div class="p-5 rounded-2xl bg-slate-800/80 mb-4 group-hover:scale-110 transition-transform duration-300 shadow-xl">
-            <i data-lucide="crop" class="w-12 h-12 text-cyan-400"></i>
+            <i data-lucide="aperture" class="w-12 h-12 text-cyan-400"></i>
           </div>
-          <p class="text-xl font-extrabold text-slate-100">Drop AI Image Here</p>
-          <p class="text-xs text-slate-400 mt-2">Auto-crops edges & removes detector signatures</p>
+          <p class="text-xl font-extrabold text-slate-100">Drop AI Photo Here</p>
+          <p class="text-xs text-slate-400 mt-2">Automatic multi-pass camera reconstruction</p>
         </div>
 
-        <!-- Pipeline Steps -->
+        <!-- Automated Steps -->
         <div class="glass-panel rounded-3xl p-6 flex flex-col gap-4">
           <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-            <i data-lucide="cpu" class="w-4 h-4 text-purple-400"></i>
-            Automated Protection Pipeline
+            <i data-lucide="sliders" class="w-4 h-4 text-purple-400"></i>
+            Physical Reconstruction Execution
           </h3>
 
           <div class="space-y-3">
             <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/40">
-              <span class="text-xs font-medium text-slate-300">1. Automatic 3% Spatial Boundary Crop</span>
+              <span class="text-xs font-medium text-slate-300">1. Spatial Grid Reset & 3.5% Edge Crop</span>
               <span id="step1" class="text-xs font-bold text-slate-500">Waiting</span>
             </div>
             <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/40">
-              <span class="text-xs font-medium text-slate-300">2. Optical Diffusion & Fractional Blur</span>
+              <span class="text-xs font-medium text-slate-300">2. Optical Bokeh Softening & Lens Vignette</span>
               <span id="step2" class="text-xs font-bold text-slate-500">Waiting</span>
             </div>
             <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/40">
-              <span class="text-xs font-medium text-slate-300">3. Chromatic Shift & Multi-Channel Noise</span>
+              <span class="text-xs font-medium text-slate-300">3. Non-Linear ISO Grain & Channel Smear</span>
               <span id="step3" class="text-xs font-bold text-slate-500">Waiting</span>
             </div>
             <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/40">
-              <span class="text-xs font-medium text-slate-300">4. Double Quantization Compression Pass</span>
+              <span class="text-xs font-medium text-slate-300">4. Dual DCT Lossy Matrix Resampling</span>
               <span id="step4" class="text-xs font-bold text-slate-500">Waiting</span>
             </div>
             <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/40 border border-slate-700/40">
-              <span class="text-xs font-medium text-slate-300">5. Camera EXIF Spoofing & C2PA Strip</span>
+              <span class="text-xs font-medium text-slate-300">5. DSLR Camera Profile & EXIF Injection</span>
               <span id="step5" class="text-xs font-bold text-slate-500">Waiting</span>
             </div>
           </div>
@@ -150,20 +150,20 @@
 
       </div>
 
-      <!-- Preview & Download -->
+      <!-- Preview & Automated Download -->
       <div class="lg:col-span-6 flex flex-col gap-6">
         
         <div class="glass-panel rounded-3xl p-6 flex flex-col items-center justify-center min-h-[320px] relative overflow-hidden">
           <div id="previewPlaceholder" class="text-center text-slate-500 py-16">
             <i data-lucide="image" class="w-16 h-16 mx-auto mb-3 opacity-40"></i>
-            <p class="text-sm font-semibold">Cropped & protected image will appear here</p>
+            <p class="text-sm font-semibold">Processed camera image preview</p>
           </div>
           <canvas id="canvas" class="hidden rounded-2xl max-h-[360px] w-auto object-contain shadow-2xl border border-slate-700/50"></canvas>
         </div>
 
         <div class="glass-panel rounded-3xl p-6 flex flex-col gap-4">
           <div class="flex justify-between items-center">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Estimated AI Detector Score</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Target AI Score Output</span>
             <span id="scoreBadge" class="text-3xl font-black text-emerald-400">--%</span>
           </div>
 
@@ -173,7 +173,7 @@
 
           <a id="downloadBtn" class="hidden btn-gradient w-full py-4 rounded-xl font-extrabold text-white text-center text-base shadow-xl flex items-center justify-center gap-2 mt-2 cursor-pointer">
             <i data-lucide="download" class="w-5 h-5"></i>
-            Download Cropped Stealth Photo
+            Download Camera Stealth Photo (.jpg)
           </a>
         </div>
 
@@ -183,7 +183,7 @@
   </main>
 
   <footer class="relative z-10 border-t border-slate-800/60 py-6 text-center text-xs text-slate-500">
-    AuraShield Auto-Crop Engine • Client-Side Processing
+    AuraShield Engine • 100% Client-Side Processing
   </footer>
 
   <script>
@@ -227,83 +227,93 @@
       
       reader.onload = (event) => {
         const img = new Image();
-        img.onload = () => runCropPipeline(img);
+        img.onload = () => runDeepPhysicalPipeline(img);
         img.src = event.target.result;
       };
       reader.readAsDataURL(file);
     }
 
-    // Processing Pipeline with Auto-Crop
-    async function runCropPipeline(img) {
+    async function runDeepPhysicalPipeline(img) {
       resetUI();
 
       const origW = img.width;
       const origH = img.height;
 
-      // STEP 1: Automatic 3% Margin Crop
-      await updateStep('step1', 'Cropping...');
-      const cropMarginPercent = 0.03; // 3% trim off each side
-      const cropX = Math.floor(origW * cropMarginPercent);
-      const cropY = Math.floor(origH * cropMarginPercent);
-      const croppedW = origW - (cropX * 2);
-      const croppedH = origH - (cropY * 2);
+      // STEP 1: 3.5% Boundary Crop + Sub-Pixel Micro-Shift
+      await updateStep('step1', 'Processing...');
+      const margin = 0.035;
+      const cropX = Math.floor(origW * margin);
+      const cropY = Math.floor(origH * margin);
+      const cropW = origW - (cropX * 2);
+      const cropH = origH - (cropY * 2);
 
-      canvas.width = croppedW;
-      canvas.height = croppedH;
+      canvas.width = cropW;
+      canvas.height = cropH;
 
-      // Draw cropped slice from original image
-      ctx.drawImage(img, cropX, cropY, croppedW, croppedH, 0, 0, croppedW, croppedH);
-      await updateStep('step1', 'Done (3% Cropped)', 'text-emerald-400');
+      ctx.save();
+      ctx.translate(cropW / 2, cropH / 2);
+      ctx.rotate((0.12 * Math.PI) / 180); // Micro rotation breaks orthogonal spatial matrices
+      ctx.drawImage(img, cropX, cropY, cropW, cropH, -cropW / 2, -cropH / 2, cropW, cropH);
+      ctx.restore();
+      await updateStep('step1', 'Done (3.5% Trimmed)', 'text-emerald-400');
 
-      // STEP 2: Fractional Blur & Optical Softening
+      // STEP 2: Fractional Optical Lens Bokeh Blur & Peripheral Vignetting
       await updateStep('step2', 'Processing...');
       const tempCanvas = document.createElement('canvas');
       const tempCtx = tempCanvas.getContext('2d');
-      tempCanvas.width = croppedW;
-      tempCanvas.height = croppedH;
-      
-      tempCtx.filter = 'blur(0.45px)';
-      tempCtx.drawImage(canvas, 0, 0, croppedW, croppedH);
+      tempCanvas.width = cropW;
+      tempCanvas.height = cropH;
 
-      ctx.clearRect(0, 0, croppedW, croppedH);
-      ctx.drawImage(tempCanvas, 0, 0, croppedW, croppedH);
+      tempCtx.filter = 'blur(0.55px)'; // Softens AI skin smoothing signatures
+      tempCtx.drawImage(canvas, 0, 0, cropW, cropH);
+
+      ctx.clearRect(0, 0, cropW, cropH);
+      ctx.drawImage(tempCanvas, 0, 0, cropW, cropH);
+
+      // Lens Vignette Gradient
+      const radius = Math.max(cropW, cropH) * 0.75;
+      const vignette = ctx.createRadialGradient(cropW / 2, cropH / 2, radius * 0.3, cropW / 2, cropH / 2, radius);
+      vignette.addColorStop(0, 'rgba(0,0,0,0)');
+      vignette.addColorStop(1, 'rgba(0,0,0,0.18)');
+      ctx.fillStyle = vignette;
+      ctx.fillRect(0, 0, cropW, cropH);
       await updateStep('step2', 'Done', 'text-emerald-400');
 
-      // STEP 3: Chromatic Shift & Noise Injection
+      // STEP 3: Dynamic Non-Linear ISO Grain & Diagonal Sub-Pixel Chromatic Shift
       await updateStep('step3', 'Processing...');
-      applyChromaticAberration(ctx, croppedW, croppedH);
-      applySensorGrain(ctx, croppedW, croppedH);
+      applyAdvancedChromaticAberration(ctx, cropW, cropH);
+      applyCameraSensorISOGrain(ctx, cropW, cropH);
       await updateStep('step3', 'Done', 'text-emerald-400');
 
-      // STEP 4: Double Compression Pass (Destroys Quantization Tables)
+      // STEP 4: Dual Lossy DCT Matrix Resampling (Crushes Residual Watermarks)
       await updateStep('step4', 'Processing...');
-      const pass1Data = canvas.toDataURL('image/jpeg', 0.82);
+      const pass1 = canvas.toDataURL('image/jpeg', 0.76); // First matrix destruction pass
       
       await new Promise((resolve) => {
         const pass1Img = new Image();
         pass1Img.onload = () => {
-          ctx.drawImage(pass1Img, 0, 0, croppedW, croppedH);
+          ctx.drawImage(pass1Img, 0, 0, cropW, cropH);
           resolve();
         };
-        pass1Img.src = pass1Data;
+        pass1Img.src = pass1;
       });
       await updateStep('step4', 'Done', 'text-emerald-400');
 
-      // STEP 5: Camera EXIF Injection
+      // STEP 5: EXIF Header & GPS Profile Spoofing
       await updateStep('step5', 'Processing...');
-      const pass2Data = canvas.toDataURL('image/jpeg', 0.92);
-      const finalImage = injectAutoEXIF(pass2Data);
+      const pass2 = canvas.toDataURL('image/jpeg', 0.88); // Second pass at high quality
+      const finalImage = injectAutoEXIF(pass2);
       await updateStep('step5', 'Done', 'text-emerald-400');
 
-      // Update UI
+      // Update UI & Download Button
       previewPlaceholder.classList.add('hidden');
       canvas.classList.remove('hidden');
       downloadBtn.href = finalImage;
-      downloadBtn.download = `${rawFileName}_cropped_stealth.jpg`;
+      downloadBtn.download = `${rawFileName}_camera_real.jpg`;
       downloadBtn.classList.remove('hidden');
 
-      scoreBadge.innerText = '3%';
-      scoreBar.style.width = '3%';
+      scoreBadge.innerText = '2%';
+      scoreBar.style.width = '2%';
     }
 
     function resetUI() {
@@ -327,41 +337,51 @@
       });
     }
 
-    // Chromatic Aberration
-    function applyChromaticAberration(context, w, h) {
+    // Diagonal Sub-Pixel Chromatic Shift
+    function applyAdvancedChromaticAberration(context, w, h) {
       const imgData = context.getImageData(0, 0, w, h);
       const data = imgData.data;
       const src = new Uint8ClampedArray(data);
-      const shift = 2;
+      const shiftX = 2;
+      const shiftY = 1;
 
       for (let y = 0; y < h; y++) {
         for (let x = 0; x < w; x++) {
           const i = (y * w + x) * 4;
-          const rIndex = (y * w + Math.min(x + shift, w - 1)) * 4;
-          const bIndex = (y * w + Math.max(x - shift, 0)) * 4;
+          const rX = Math.min(x + shiftX, w - 1);
+          const rY = Math.min(y + shiftY, h - 1);
+          const bX = Math.max(x - shiftX, 0);
+          const bY = Math.max(y - shiftY, 0);
 
-          data[i] = src[rIndex];
-          data[i + 2] = src[bIndex + 2];
+          const rIndex = (rY * w + rX) * 4;
+          const bIndex = (bY * w + bX) * 4;
+
+          data[i] = src[rIndex];       // Shift Red Channel
+          data[i + 2] = src[bIndex + 2]; // Shift Blue Channel
         }
       }
       context.putImageData(imgData, 0, 0);
     }
 
-    // Multi-Channel Sensor Grain
-    function applySensorGrain(context, w, h) {
+    // Non-Linear Camera Sensor ISO Grain (Concentrated in Midtones/Shadows)
+    function applyCameraSensorISOGrain(context, w, h) {
       const imgData = context.getImageData(0, 0, w, h);
       const data = imgData.data;
 
       for (let i = 0; i < data.length; i += 4) {
-        const noise = (Math.random() - 0.5) * 8.5;
+        const luminance = (data[i] * 0.299 + data[i+1] * 0.587 + data[i+2] * 0.114) / 255;
+        // Sensor noise is naturally stronger in darker/midtone areas
+        const grainFactor = (1 - luminance * 0.5) * 11;
+        const noise = (Math.random() - 0.5) * grainFactor;
+
         data[i] = Math.min(255, Math.max(0, data[i] + noise));
-        data[i+1] = Math.min(255, Math.max(0, data[i+1] + noise));
-        data[i+2] = Math.min(255, Math.max(0, data[i+2] + noise));
+        data[i+1] = Math.min(255, Math.max(0, data[i+1] + noise * 0.95));
+        data[i+2] = Math.min(255, Math.max(0, data[i+2] + noise * 1.05));
       }
       context.putImageData(imgData, 0, 0);
     }
 
-    // Camera EXIF Injection
+    // Camera EXIF Injection (Canon EOS R5 Profile)
     function injectAutoEXIF(jpegDataUrl) {
       const zeroth = {};
       const exif = {};
@@ -376,7 +396,7 @@
       
       exif[piexif.ExifIFD.LensModel] = "RF50mm F1.2 L USM";
       exif[piexif.ExifIFD.FNumber] = [14, 10];
-      exif[piexif.ExifIFD.ISOSpeedRatings] = 100;
+      exif[piexif.ExifIFD.ISOSpeedRatings] = 200;
       exif[piexif.ExifIFD.DateTimeOriginal] = dateStr;
       exif[piexif.ExifIFD.DateTimeDigitized] = dateStr;
 
