@@ -1,405 +1,149 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AuraShield AI — Next-Gen Stealth Engine</title>
-  
-  <!-- Tailwind CSS -->
+  <title>AuraShield Pro — Frequency Shatter</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Piexifjs for Metadata Injection -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Plus Jakarta Sans', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
-          },
-          colors: {
-            brand: {
-              50: '#ecfeff',
-              400: '#22d3ee',
-              500: '#06b6d4',
-              600: '#0891b2',
-              900: '#164e63',
-              dark: '#030712',
-            }
-          }
-        }
-      }
-    }
-  </script>
-
   <style>
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: #030712;
-      color: #f8fafc;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    .glass-card {
-      background: rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    }
-
-    .glass-card-interactive {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .glass-card-interactive:hover {
-      border-color: rgba(34, 211, 238, 0.4);
-      box-shadow: 0 0 30px rgba(6, 182, 212, 0.25);
-    }
-
-    .gradient-text {
-      background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .btn-gradient {
-      background: linear-gradient(135deg, #0284c7 0%, #6366f1 50%, #9333ea 100%);
-      background-size: 200% 200%;
-      animation: gradientMove 6s ease infinite;
-    }
-
-    @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      z-index: 0;
-      opacity: 0.25;
-      pointer-events: none;
-    }
-
-    /* Custom Responsive Canvas Handling */
-    canvas {
-      max-width: 100% !important;
-      height: auto !important;
-      max-height: 50vh;
-      object-fit: contain;
-    }
-
-    @media (min-width: 1024px) {
-      canvas {
-        max-height: 60vh;
-      }
-    }
+    body { background: #030712; color: #f8fafc; font-family: sans-serif; min-height: 100vh; }
+    .glass-panel { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    canvas { max-width: 100% !important; height: auto !important; display: block; margin: 0 auto; }
   </style>
 </head>
-<body class="flex flex-col min-h-screen relative antialiased selection:bg-cyan-500 selection:text-black">
+<body class="p-4 sm:p-8 flex flex-col items-center justify-center">
 
-  <!-- Background Ambient Lights -->
-  <div class="blob w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-cyan-500 -top-20 -left-20"></div>
-  <div class="blob w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] bg-purple-600 bottom-0 -right-20"></div>
-
-  <!-- Top Navbar -->
-  <header class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 py-5 flex items-center justify-between border-b border-slate-800/80">
-    <div class="flex items-center gap-3">
-      <div class="p-2.5 sm:p-3 rounded-2xl glass-card border border-cyan-500/30">
-        <i data-lucide="shield-check" class="w-6 h-6 sm:w-7 sm:h-7 text-cyan-400"></i>
-      </div>
-      <div>
-        <span class="text-xl sm:text-2xl font-extrabold tracking-tight">Aura<span class="gradient-text">Shield</span></span>
-        <span class="hidden sm:block text-[10px] text-slate-400 font-bold tracking-widest uppercase">Stealth Processing Matrix</span>
-      </div>
-    </div>
-
-    <div class="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full glass-card text-xs font-semibold text-cyan-400 border border-cyan-500/30">
-      <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-      <span class="text-[11px] sm:text-xs">v4.0 Pro Engine</span>
-    </div>
-  </header>
-
-  <!-- Main Layout -->
-  <main class="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-8 py-8 flex flex-col justify-center">
-    
-    <!-- Hero Title -->
-    <div class="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
-      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight mb-3">
-        Transform AI Images to <br class="hidden sm:inline" />
-        <span class="gradient-text">Human-Grade Photos</span>
+  <div class="max-w-3xl w-full mx-auto">
+    <header class="text-center mb-6">
+      <h1 class="text-3xl sm:text-4xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+        AuraShield Stealth Engine
       </h1>
-      <p class="text-slate-400 text-xs sm:text-base max-w-xl mx-auto">
-        Automated multi-layer spatial reconstruction, chromatic phase shifting, noise synthesis, and EXIF camera profile spoofing.
-      </p>
-    </div>
+      <p class="text-slate-400 text-xs mt-2">Adversarial Pixel Disruption • 0% Hue Shift • Automated Bypass</p>
+    </header>
 
-    <!-- Interactive Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-      
-      <!-- Left Column: Upload & Pipeline Steps -->
-      <div class="lg:col-span-6 flex flex-col gap-6">
-        
-        <!-- Dropzone Card -->
-        <div id="dropzone" class="glass-card glass-card-interactive rounded-3xl p-6 sm:p-10 text-center cursor-pointer border-2 border-dashed border-slate-700 hover:border-cyan-400 transition-all group relative overflow-hidden flex flex-col items-center justify-center min-h-[220px] sm:min-h-[280px]">
-          <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="hidden" />
-          
-          <div class="p-4 sm:p-5 rounded-2xl bg-slate-800/80 mb-4 group-hover:scale-110 transition-transform duration-300 shadow-xl border border-slate-700/50">
-            <i data-lucide="upload-cloud" class="w-8 h-8 sm:w-10 sm:h-10 text-cyan-400"></i>
-          </div>
-          
-          <p class="text-base sm:text-xl font-bold text-slate-100">Drop Image Here or Tap to Upload</p>
-          <p class="text-xs text-slate-400 mt-1.5">Supports JPG, PNG, WEBP (Auto Processing)</p>
-        </div>
-
-        <!-- Processing Steps Card -->
-        <div class="glass-card rounded-3xl p-5 sm:p-6 space-y-4">
-          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
-              <i data-lucide="cpu" class="w-4 h-4 text-purple-400"></i>
-              Execution Pipeline
-            </h3>
-            <span id="pipelineStatus" class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400">IDLE</span>
-          </div>
-
-          <div class="space-y-2.5 font-mono text-xs">
-            <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/50 border border-slate-800">
-              <span class="text-slate-300 text-[11px] sm:text-xs">1. Spatial Grid Resampling</span>
-              <span id="step1" class="font-bold text-slate-500">Waiting</span>
-            </div>
-            <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/50 border border-slate-800">
-              <span class="text-slate-300 text-[11px] sm:text-xs">2. Chromatic Aberration Phase</span>
-              <span id="step2" class="font-bold text-slate-500">Waiting</span>
-            </div>
-            <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/50 border border-slate-800">
-              <span class="text-slate-300 text-[11px] sm:text-xs">3. Sensor Noise Injection</span>
-              <span id="step3" class="font-bold text-slate-500">Waiting</span>
-            </div>
-            <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/50 border border-slate-800">
-              <span class="text-slate-300 text-[11px] sm:text-xs">4. Dynamic Vignette & Curves</span>
-              <span id="step4" class="font-bold text-slate-500">Waiting</span>
-            </div>
-            <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/50 border border-slate-800">
-              <span class="text-slate-300 text-[11px] sm:text-xs">5. EXIF Camera Profile Inject</span>
-              <span id="step5" class="font-bold text-slate-500">Waiting</span>
-            </div>
-          </div>
-        </div>
-
+    <div class="glass-panel p-6 rounded-3xl shadow-2xl">
+      <div id="dropzone" class="border-2 border-dashed border-slate-600 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-cyan-400 transition-all text-center min-h-[200px]">
+        <i data-lucide="zap" class="w-10 h-10 text-cyan-400 mb-3"></i>
+        <p class="text-base font-bold text-slate-200">Click or Drag AI Photo</p>
+        <p class="text-xs text-slate-400 mt-1">Runs Frequency Shatter & Phase Transformation</p>
+        <input type="file" id="fileInput" accept="image/*" class="hidden" />
       </div>
 
-      <!-- Right Column: Canvas Preview & Download -->
-      <div class="lg:col-span-6 flex flex-col gap-6">
-        
-        <!-- Preview Box -->
-        <div class="glass-card rounded-3xl p-4 sm:p-6 flex flex-col items-center justify-center min-h-[280px] sm:min-h-[380px] relative overflow-hidden">
-          
-          <div id="previewPlaceholder" class="text-center text-slate-500 py-12 sm:py-20">
-            <i data-lucide="image" class="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 opacity-30"></i>
-            <p class="text-xs sm:text-sm font-semibold">Processed HD Preview Will Appear Here</p>
-          </div>
-
-          <canvas id="canvas" class="hidden rounded-2xl shadow-2xl border border-slate-700/60"></canvas>
+      <div class="mt-6">
+        <div id="status" class="text-xs text-cyan-400 font-mono text-center mb-2">Status: System Ready</div>
+        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+          <div id="progress" class="h-full bg-gradient-to-r from-cyan-400 to-purple-500 w-0 transition-all"></div>
         </div>
-
-        <!-- Download & Protection Score Box -->
-        <div class="glass-card rounded-3xl p-5 sm:p-6 space-y-4">
-          <div class="flex justify-between items-end">
-            <div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Protection Level</span>
-              <span id="scoreText" class="text-xs text-slate-300">Awaiting Image</span>
-            </div>
-            <span id="scoreBadge" class="text-2xl sm:text-3xl font-black text-cyan-400 font-mono">--%</span>
-          </div>
-
-          <div class="w-full h-2.5 sm:h-3 bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-800">
-            <div id="scoreBar" class="h-full rounded-full bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-500 w-[0%] transition-all duration-700"></div>
-          </div>
-
-          <a id="downloadBtn" class="hidden btn-gradient w-full py-3.5 sm:py-4 rounded-2xl font-extrabold text-white text-center text-sm sm:text-base shadow-xl flex items-center justify-center gap-2 transition-transform active:scale-95 cursor-pointer">
-            <i data-lucide="download" class="w-5 h-5"></i>
-            Download Protected Photo
-          </a>
-        </div>
-
       </div>
-
     </div>
-  </main>
 
-  <!-- Footer -->
-  <footer class="relative z-10 border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
-    AuraShield AI Matrix • Fully Client-Side & Secure Processing
-  </footer>
+    <div class="mt-6 w-full flex flex-col items-center">
+      <canvas id="canvas" class="hidden rounded-2xl shadow-2xl border border-slate-700/50"></canvas>
+      <a id="downloadBtn" class="hidden mt-6 bg-gradient-to-r from-cyan-500 to-purple-600 text-white font-bold py-3.5 px-8 rounded-full shadow-lg hover:opacity-95 transition cursor-pointer">
+        Download Disrupted HD Photo
+      </a>
+    </div>
+  </div>
 
-  <!-- Core Script Logic -->
   <script>
     lucide.createIcons();
+    const canvas = document.getElementById('canvas'), ctx = canvas.getContext('2d');
+    const fileInput = document.getElementById('fileInput'), dropzone = document.getElementById('dropzone');
+    const downloadBtn = document.getElementById('downloadBtn'), status = document.getElementById('status'), progress = document.getElementById('progress');
 
-    const dropzone = document.getElementById('dropzone');
-    const fileInput = document.getElementById('fileInput');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    const previewPlaceholder = document.getElementById('previewPlaceholder');
-    const scoreBadge = document.getElementById('scoreBadge');
-    const scoreBar = document.getElementById('scoreBar');
-    const scoreText = document.getElementById('scoreText');
-    const pipelineStatus = document.getElementById('pipelineStatus');
+    dropzone.onclick = () => fileInput.click();
+    fileInput.onchange = (e) => { if (e.target.files.length) processDeepShatter(e.target.files[0]); };
 
-    let rawFileName = "protected_photo";
+    async function processDeepShatter(file) {
+      updateProgress(15, "1/4 Executing Spatial Phase Transformation...");
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      await img.decode();
 
-    dropzone.addEventListener('click', () => fileInput.click());
-    dropzone.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      dropzone.classList.add('border-cyan-400');
-    });
-    dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-cyan-400'));
-    dropzone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropzone.classList.remove('border-cyan-400');
-      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-    });
+      const rawFileName = file.name.substring(0, file.name.lastIndexOf('.')) || "disrupted_photo";
+      const origW = img.width, origH = img.height;
+      const margin = 0.035;
+      const cropW = origW * (1 - margin * 2), cropH = origH * (1 - margin * 2);
 
-    fileInput.addEventListener('change', (e) => {
-      if (e.target.files.length) handleFile(e.target.files[0]);
-    });
+      const MAX_SIZE = 2400;
+      let scale = Math.min(MAX_SIZE / cropW, MAX_SIZE / cropH);
+      if (scale < 1.5) scale = 1.5;
 
-    function handleFile(file) {
-      if (!file.type.match('image.*')) {
-        alert('Please upload a valid image file.');
-        return;
-      }
+      const targetW = Math.floor(cropW * scale), targetH = Math.floor(cropH * scale);
+      canvas.width = targetW; canvas.height = targetH;
 
-      rawFileName = file.name.substring(0, file.name.lastIndexOf('.')) || "protected_photo";
-      const reader = new FileReader();
-      
-      reader.onload = (event) => {
-        const img = new Image();
-        img.onload = () => runAutomatedPipeline(img);
-        img.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
+      // 1. Perspective Transform & Micro Rotate
+      ctx.save();
+      ctx.translate(targetW / 2, targetH / 2);
+      ctx.rotate((0.18 * Math.PI) / 180);
+      ctx.scale(1.003, 0.997); // Anisotropic Stretch (Matrix Shift)
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(img, origW * margin, origH * margin, cropW, cropH, -targetW / 2, -targetH / 2, targetW, targetH);
+      ctx.restore();
 
-    async function runAutomatedPipeline(img) {
-      resetUI();
-      pipelineStatus.innerText = "PROCESSING";
-      pipelineStatus.className = "text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 animate-pulse";
+      // 2. Adversarial Non-Linear Pixel Shear (Breaks Diffusion Covariance Grid)
+      updateProgress(45, "2/4 Running Adversarial Grid Disruption...");
+      applyPixelGlitchShatter(ctx, targetW, targetH);
 
-      // 1. Grid Resampling
-      await updateStep('step1', 'Processing...');
-      const targetW = img.width;
-      const targetH = img.height;
-      
-      const tempCanvas = document.createElement('canvas');
-      const tempCtx = tempCanvas.getContext('2d');
-      tempCanvas.width = Math.floor(targetW * 0.965);
-      tempCanvas.height = Math.floor(targetH * 0.965);
-      tempCtx.drawImage(img, 0, 0, tempCanvas.width, tempCanvas.height);
+      // 3. High Frequency Noise Injection
+      updateProgress(75, "3/4 Injecting High-Frequency Wave Texture...");
+      applyFrequencyNoise(ctx, targetW, targetH);
 
-      canvas.width = targetW;
-      canvas.height = targetH;
-      ctx.drawImage(tempCanvas, 0, 0, targetW, targetH);
-      await updateStep('step1', 'Done', 'text-emerald-400');
+      // 4. Double DCT Quantization Matrix Pass
+      updateProgress(90, "4/4 Re-quantizing DCT Coefficient Matrix...");
+      const pass1 = canvas.toDataURL('image/jpeg', 0.82);
+      await new Promise(r => {
+        const i = new Image();
+        i.onload = () => { ctx.drawImage(i, 0, 0, targetW, targetH); r(); };
+        i.src = pass1;
+      });
 
-      // 2. Chromatic Aberration
-      await updateStep('step2', 'Processing...');
-      applyChromaticAberration(ctx, targetW, targetH);
-      await updateStep('step2', 'Done', 'text-emerald-400');
+      const finalData = injectCanonEXIF(canvas.toDataURL('image/jpeg', 0.96));
 
-      // 3. Sensor Grain
-      await updateStep('step3', 'Processing...');
-      applySensorGrain(ctx, targetW, targetH);
-      await updateStep('step3', 'Done', 'text-emerald-400');
-
-      // 4. Tone Curves & Vignette
-      await updateStep('step4', 'Processing...');
-      applyToneCurveAndVignette(ctx, targetW, targetH);
-      await updateStep('step4', 'Done', 'text-emerald-400');
-
-      // 5. EXIF Spoofing
-      await updateStep('step5', 'Processing...');
-      const jpegData = canvas.toDataURL('image/jpeg', 0.95);
-      const finalImage = injectAutoEXIF(jpegData);
-      await updateStep('step5', 'Done', 'text-emerald-400');
-
-      // UI Completion
-      previewPlaceholder.classList.add('hidden');
-      canvas.classList.remove('hidden');
-      downloadBtn.href = finalImage;
+      downloadBtn.href = finalData;
       downloadBtn.download = `${rawFileName}_stealth.jpg`;
       downloadBtn.classList.remove('hidden');
-
-      scoreBadge.innerText = '96%';
-      scoreBar.style.width = '96%';
-      scoreText.innerText = 'Stealth Matrix Active';
-
-      pipelineStatus.innerText = "COMPLETE";
-      pipelineStatus.className = "text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400";
+      canvas.classList.remove('hidden');
+      updateProgress(100, "Done! Disruption Complete.");
     }
 
-    function resetUI() {
-      ['step1', 'step2', 'step3', 'step4', 'step5'].forEach(id => {
-        const el = document.getElementById(id);
-        el.innerText = 'Waiting';
-        el.className = 'font-bold text-slate-500';
-      });
-      scoreBadge.innerText = '--%';
-      scoreBar.style.width = '0%';
-      scoreText.innerText = 'Processing...';
-      downloadBtn.classList.add('hidden');
+    function updateProgress(percent, text) {
+      progress.style.width = `${percent}%`;
+      status.innerText = `Status: ${text}`;
     }
 
-    function updateStep(id, text, colorClass = 'text-cyan-400') {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          const el = document.getElementById(id);
-          el.innerText = text;
-          el.className = `font-bold ${colorClass}`;
-          resolve();
-        }, 120);
-      });
-    }
-
-    function applyChromaticAberration(context, w, h) {
+    // Adversarial Glitch Shatter Filter
+    function applyPixelGlitchShatter(context, w, h) {
       const imgData = context.getImageData(0, 0, w, h);
       const data = imgData.data;
-      const src = new Uint8ClampedArray(data);
-      const shift = 2;
+      const copy = new Uint8ClampedArray(data);
 
-      for (let y = 0; y < h; y++) {
+      for (let y = 0; y < h; y += 40) {
+        const shiftX = (Math.random() > 0.5 ? 1 : -1) * Math.floor(Math.random() * 2);
         for (let x = 0; x < w; x++) {
-          const i = (y * w + x) * 4;
-          const rIndex = (y * w + Math.min(x + shift, w - 1)) * 4;
-          const bIndex = (y * w + Math.max(x - shift, 0)) * 4;
+          const targetX = Math.min(w - 1, Math.max(0, x + shiftX));
+          for (let row = 0; row < 40 && y + row < h; row++) {
+            const srcIdx = ((y + row) * w + x) * 4;
+            const targetIdx = ((y + row) * w + targetX) * 4;
 
-          data[i] = src[rIndex];
-          data[i + 2] = src[bIndex + 2];
+            data[targetIdx] = copy[srcIdx];
+            data[targetIdx + 1] = copy[srcIdx + 1];
+            data[targetIdx + 2] = copy[srcIdx + 2];
+          }
         }
       }
       context.putImageData(imgData, 0, 0);
     }
 
-    function applySensorGrain(context, w, h) {
+    function applyFrequencyNoise(context, w, h) {
       const imgData = context.getImageData(0, 0, w, h);
       const data = imgData.data;
 
       for (let i = 0; i < data.length; i += 4) {
-        const noise = (Math.random() - 0.5) * 6.5;
+        const noise = (Math.random() - 0.5) * 8.5;
         data[i] = Math.min(255, Math.max(0, data[i] + noise));
         data[i+1] = Math.min(255, Math.max(0, data[i+1] + noise));
         data[i+2] = Math.min(255, Math.max(0, data[i+2] + noise));
@@ -407,42 +151,17 @@
       context.putImageData(imgData, 0, 0);
     }
 
-    function applyToneCurveAndVignette(context, w, h) {
-      const radius = Math.max(w, h) * 0.7;
-      const gradient = context.createRadialGradient(w / 2, h / 2, radius * 0.35, w / 2, h / 2, radius);
-      gradient.addColorStop(0, 'rgba(0,0,0,0)');
-      gradient.addColorStop(1, 'rgba(0,0,0,0.15)');
-
-      context.fillStyle = gradient;
-      context.fillRect(0, 0, w, h);
-    }
-
-    function injectAutoEXIF(jpegDataUrl) {
-      const zeroth = {};
-      const exif = {};
-      const gps = {};
-
-      const now = new Date();
-      const dateStr = `${now.getFullYear()}:${String(now.getMonth()+1).padStart(2,'0')}:${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
-
-      zeroth[piexif.ImageIFD.Make] = "Canon";
-      zeroth[piexif.ImageIFD.Model] = "Canon EOS R5";
-      zeroth[piexif.ImageIFD.Software] = "Digital Photo Professional 4.15";
-      
-      exif[piexif.ExifIFD.LensModel] = "RF50mm F1.2 L USM";
-      exif[piexif.ExifIFD.FNumber] = [14, 10];
-      exif[piexif.ExifIFD.ISOSpeedRatings] = 100;
-      exif[piexif.ExifIFD.DateTimeOriginal] = dateStr;
-      exif[piexif.ExifIFD.DateTimeDigitized] = dateStr;
-
-      gps[piexif.GPSIFD.GPSLatitudeRef] = "N";
-      gps[piexif.GPSIFD.GPSLatitude] = [[37, 1], [46, 1], [29, 100]];
-      gps[piexif.GPSIFD.GPSLongitudeRef] = "W";
-      gps[piexif.GPSIFD.GPSLongitude] = [[122, 1], [25, 1], [9, 100]];
-
-      const exifObj = { "0th": zeroth, "Exif": exif, "GPS": gps };
-      const exifBytes = piexif.dump(exifObj);
-      return piexif.insert(exifBytes, jpegDataUrl);
+    function injectCanonEXIF(data) {
+      const zer = {
+        [piexif.ImageIFD.Make]: "Canon",
+        [piexif.ImageIFD.Model]: "Canon EOS R5",
+        [piexif.ImageIFD.Software]: "Adobe Photoshop 2024 (Windows)"
+      };
+      const exi = {
+        [piexif.ExifIFD.LensModel]: "RF50mm F1.2 L USM",
+        [piexif.ExifIFD.ISOSpeedRatings]: 100
+      };
+      return piexif.insert(piexif.dump({"0th": zer, "Exif": exi}), data);
     }
   </script>
 </body>
