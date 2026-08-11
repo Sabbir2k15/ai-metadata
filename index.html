@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>ExifCleaner Pro — Sharp Pixel Matrix Engine</title>
+  <title>ExifCleaner Pro — Anti-Blur Sub-Pixel Engine</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
@@ -56,7 +56,9 @@
       height: auto !important;
       max-height: 38vh;
       object-fit: contain;
-      image-rendering: pixelated; /* Crisp pixel display without browser blur */
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+      image-rendering: pixelated;
     }
   </style>
 </head>
@@ -70,7 +72,7 @@
       </div>
       <div>
         <span class="text-xl sm:text-2xl font-black tracking-tight">Exif<span class="gradient-text">Cleaner Pro</span></span>
-        <span class="hidden sm:block text-[10px] text-slate-400 font-bold tracking-widest uppercase">Pixel Sharpen & EXIF Engine</span>
+        <span class="hidden sm:block text-[10px] text-slate-400 font-bold tracking-widest uppercase">Sub-Pixel Grain & EXIF Matrix</span>
       </div>
     </div>
 
@@ -86,10 +88,10 @@
     <div class="text-center max-w-3xl mx-auto mb-8">
       <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight mb-3">
         Edit Metadata & <br class="hidden sm:inline" />
-        <span class="gradient-text">Anti-Blur Pixel Sharpening</span>
+        <span class="gradient-text">Sub-Pixel Grain Reconstruction</span>
       </h1>
       <p class="text-slate-400 text-xs sm:text-base max-w-xl mx-auto">
-        Kernel Convolution Edge Sharpening stops pixel blur on zoom while injecting authentic EXIF camera metadata.
+        Replaces smooth AI pixel blur on zoom with physical camera sensor grain and sharp high-pass edge matrix.
       </p>
     </div>
 
@@ -197,7 +199,7 @@
           </div>
 
           <button id="processBtn" onclick="processImage()" class="btn-gradient w-full py-3.5 rounded-2xl font-extrabold text-white text-sm shadow-xl flex items-center justify-center gap-2 cursor-pointer transition hover:opacity-95">
-            <i data-lucide="zap" class="w-4 h-4"></i> Apply Sharpening & EXIF
+            <i data-lucide="zap" class="w-4 h-4"></i> Apply Sub-Pixel Grain & EXIF
           </button>
 
           <a id="downloadBtn" class="hidden btn-gradient w-full py-3.5 rounded-2xl font-extrabold text-white text-center text-sm shadow-xl flex items-center justify-center gap-2 cursor-pointer">
@@ -247,7 +249,6 @@
           canvas.width = loadedImage.width;
           canvas.height = loadedImage.height;
           
-          // Disable Smoothing on render
           ctx.imageSmoothingEnabled = false;
           ctx.drawImage(loadedImage, 0, 0);
 
@@ -298,47 +299,45 @@
       }
 
       try {
-        status.innerText = "Sharpening Pixel Edge Matrix...";
+        status.innerText = "Reconstructing Sub-Pixel Micro-Grain...";
         bar.style.width = "50%";
 
         canvas.width = loadedImage.width;
         canvas.height = loadedImage.height;
 
-        // Disable Canvas Pixel Smoothing
         ctx.imageSmoothingEnabled = false;
         ctx.webkitImageSmoothingEnabled = false;
         ctx.mozImageSmoothingEnabled = false;
-        ctx.msImageSmoothingEnabled = false;
 
         ctx.fillStyle = "#FFFFFF";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(loadedImage, 0, 0);
 
-        // Apply Pixel Edge Sharpening Kernel
-        applyPixelSharpenMatrix(ctx, canvas.width, canvas.height);
+        // Inject Sub-Pixel Grain & Edge Sharpen Matrix
+        applySubPixelGrainAndSharpen(ctx, canvas.width, canvas.height);
 
-        status.innerText = "Injecting Custom EXIF...";
+        status.innerText = "Injecting EXIF Camera Metadata...";
         bar.style.width = "85%";
 
-        const base64Jpeg = canvas.toDataURL('image/jpeg', 0.98); // High Clarity JPEG Stream
+        const base64Jpeg = canvas.toDataURL('image/jpeg', 0.98);
         const finalJpeg = buildAndInjectEXIF(base64Jpeg);
 
         bar.style.width = "100%";
-        status.innerText = "Pixel Sharpened & Metadata Updated!";
+        status.innerText = "Pixel Reconstruction & Metadata Complete!";
 
         downloadBtn.href = finalJpeg;
-        downloadBtn.download = `${rawFileName}_sharpened_hd.jpg`;
+        downloadBtn.download = `${rawFileName}_crisp_hd.jpg`;
         downloadBtn.classList.remove('hidden');
 
       } catch (err) {
         console.error(err);
-        status.innerText = "Error: Failed to process image";
+        status.innerText = "Error Processing Image Matrix";
         status.className = "text-[10px] font-mono font-bold px-2.5 py-1 rounded bg-red-950 text-red-400";
       }
     }
 
-    // Kernel Convolution Sharpening (High-Contrast Pixel Edges)
-    function applyPixelSharpenMatrix(context, w, h) {
+    // Sub-Pixel Sensor Noise & Convolution Kernel (Stops AI Smooth Blur on Zoom)
+    function applySubPixelGrainAndSharpen(context, w, h) {
       const imgData = context.getImageData(0, 0, w, h);
       const data = imgData.data;
       const copy = new Uint8ClampedArray(data);
@@ -347,19 +346,22 @@
       for (let i = w4 + 4; i < data.length - w4 - 4; i += 4) {
         const centerR = copy[i], centerG = copy[i+1], centerB = copy[i+2];
 
-        // Surrounding Pixels
+        // Surrounding Pixels for High-Pass Contrast
         const topR = copy[i - w4], leftR = copy[i - 4], rightR = copy[i + 4], bottomR = copy[i + w4];
         const topG = copy[i - w4 + 1], leftG = copy[i - 3], rightG = copy[i + 5], bottomG = copy[i + w4 + 1];
         const topB = copy[i - w4 + 2], leftB = copy[i - 2], rightB = copy[i + 6], bottomB = copy[i + w4 + 2];
 
-        // Sharpen Kernel Matrix [0, -1, 0, -1, 5, -1, 0, -1, 0]
-        const sharpR = centerR * 5 - (topR + leftR + rightR + bottomR);
-        const sharpG = centerG * 5 - (topG + leftG + rightG + bottomG);
-        const sharpB = centerB * 5 - (topB + leftB + rightB + bottomB);
+        // 1. High-Pass Sharpen Matrix Calculation
+        let sharpR = centerR * 4.6 - (topR + leftR + rightR + bottomR) * 0.9;
+        let sharpG = centerG * 4.6 - (topG + leftG + rightG + bottomG) * 0.9;
+        let sharpB = centerB * 4.6 - (topB + leftB + rightB + bottomB) * 0.9;
 
-        data[i] = Math.min(255, Math.max(0, sharpR));
-        data[i+1] = Math.min(255, Math.max(0, sharpG));
-        data[i+2] = Math.min(255, Math.max(0, sharpB));
+        // 2. Physical Sensor Bayer Noise (Injects micro-texture into smooth AI pixels)
+        const sensorNoise = (Math.random() - 0.5) * 6.8;
+
+        data[i] = Math.min(255, Math.max(0, sharpR + sensorNoise));
+        data[i+1] = Math.min(255, Math.max(0, sharpG + sensorNoise));
+        data[i+2] = Math.min(255, Math.max(0, sharpB + sensorNoise));
       }
       context.putImageData(imgData, 0, 0);
     }
