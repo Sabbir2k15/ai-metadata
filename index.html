@@ -3,110 +3,143 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AuraShield: Neural Scrubber</title>
+  <title>AuraShield: Neural Scrubber Fix</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    body { background: #030712; color: white; font-family: sans-serif; }
+    body { background: #030712; color: white; font-family: sans-serif; min-height: 100vh; }
     .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.1); }
   </style>
 </head>
-<body class="flex flex-col items-center p-4">
-  <div class="max-w-4xl w-full">
-    <div class="glass p-8 rounded-[2rem] text-center">
-      <h1 class="text-3xl font-black mb-2">AuraShield <span class="text-cyan-500">v5.0</span></h1>
-      <p class="text-slate-400 text-sm mb-6">Neural Signature Scrubber & Re-encoder</p>
+<body class="flex flex-col items-center justify-center p-4">
+  <div class="max-w-xl w-full">
+    <div class="glass p-8 rounded-[2rem] text-center shadow-2xl">
+      <h1 class="text-3xl font-black mb-2">AuraShield <span class="text-cyan-500">v5.1 Fix</span></h1>
+      <p class="text-slate-400 text-sm mb-6">Automated Neural Scrubber & EXIF Engine</p>
       
       <div id="dropzone" class="border-2 border-dashed border-slate-700 rounded-3xl p-10 cursor-pointer hover:border-cyan-500 transition-all">
         <i data-lucide="scan-line" class="w-12 h-12 mx-auto text-cyan-400 mb-4"></i>
-        <p class="text-lg font-bold">Select Image to Reconstruct</p>
+        <p class="text-lg font-bold">Select Image to Process</p>
+        <p class="text-xs text-slate-400 mt-1">Supports JPG, PNG, WEBP</p>
         <input type="file" id="fileInput" accept="image/*" class="hidden">
       </div>
       
       <div class="mt-6 flex flex-col gap-4">
-        <div id="status" class="text-xs font-mono text-cyan-400">System Standing By...</div>
+        <div id="status" class="text-xs font-mono text-cyan-400">System Ready</div>
         <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
-            <div id="bar" class="h-full bg-cyan-500 w-0 transition-all duration-500"></div>
+            <div id="bar" class="h-full bg-gradient-to-r from-cyan-500 to-purple-500 w-0 transition-all duration-300"></div>
         </div>
       </div>
     </div>
     
     <div class="mt-8 flex justify-center">
-        <a id="downloadBtn" class="hidden bg-gradient-to-r from-cyan-600 to-purple-600 px-10 py-4 rounded-full font-bold shadow-2xl">Download Reconstructed HD</a>
+        <a id="downloadBtn" class="hidden bg-gradient-to-r from-cyan-600 to-purple-600 px-10 py-4 rounded-full font-bold shadow-2xl transition hover:opacity-90">
+          Download Protected Photo HD
+        </a>
     </div>
   </div>
 
   <script>
     lucide.createIcons();
-    const dropzone = document.getElementById('dropzone'), fileInput = document.getElementById('fileInput'), status = document.getElementById('status'), bar = document.getElementById('bar'), downloadBtn = document.getElementById('downloadBtn');
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const status = document.getElementById('status');
+    const bar = document.getElementById('bar');
+    const downloadBtn = document.getElementById('downloadBtn');
 
     dropzone.onclick = () => fileInput.click();
-    fileInput.onchange = (e) => processReconstruct(e.target.files[0]);
+    fileInput.onchange = (e) => {
+      if (e.target.files.length) processReconstruct(e.target.files[0]);
+    };
 
     async function processReconstruct(file) {
-      status.innerText = "Initializing Latent Reconstruction...";
-      bar.style.width = "20%";
-      
-      const img = new Image();
-      img.src = URL.createObjectURL(file);
-      await img.decode();
+      try {
+        status.innerText = "Initializing Latent Reconstruction...";
+        bar.style.width = "20%";
+        
+        const img = new Image();
+        img.src = URL.createObjectURL(file);
+        await img.decode();
 
-      // Canvas setup
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      canvas.width = img.width; canvas.height = img.height;
+        // 1. First Canvas Pass: Noise & Frequency Break
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = img.width; 
+        canvas.height = img.height;
 
-      // Pass 1: Heavy Frequency Disruption
-      ctx.drawImage(img, 0, 0);
-      applyHighFrequencyNoise(ctx, canvas.width, canvas.height);
-      
-      // Force Blob Re-serialization (Crucial Step)
-      const blob1 = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.85));
-      const img2 = new Image();
-      img2.src = URL.createObjectURL(blob1);
-      await img2.decode();
+        ctx.drawImage(img, 0, 0);
+        applyHighFrequencyNoise(ctx, canvas.width, canvas.height);
+        
+        status.innerText = "Reconstructing Pixel Matrix...";
+        bar.style.width = "60%";
 
-      // Pass 2: Reconstruction & EXIF Injection
-      status.innerText = "Reconstructing Pixel Matrix...";
-      bar.style.width = "60%";
-      const canvas2 = document.createElement('canvas');
-      const ctx2 = canvas2.getContext('2d');
-      canvas2.width = img2.width; canvas2.height = img2.height;
-      ctx2.drawImage(img2, 0, 0);
-      
-      // Final metadata injection
-      status.innerText = "Injecting Forensic Metadata...";
-      const finalBlob = await new Promise(r => canvas2.toBlob(r, 'image/jpeg', 0.98));
-      const finalUrl = await stripAndInjectEXIF(finalBlob);
-      
-      bar.style.width = "100%";
-      status.innerText = "Reconstruction Complete!";
-      downloadBtn.href = finalUrl;
-      downloadBtn.download = "reconstructed_hd.jpg";
-      downloadBtn.classList.remove('hidden');
+        // DataURL-এ রূপান্তর (যাতে পিন মেমরি লিক না হয়)
+        const pass1DataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+        // 2. Second Canvas Pass: Clean Re-encoding
+        const img2 = new Image();
+        img2.src = pass1DataUrl;
+        await img2.decode();
+
+        const canvas2 = document.createElement('canvas');
+        const ctx2 = canvas2.getContext('2d');
+        canvas2.width = img2.width; 
+        canvas2.height = img2.height;
+        ctx2.drawImage(img2, 0, 0);
+        
+        // 3. EXIF Metadata Injection Fix
+        status.innerText = "Injecting Forensic Metadata...";
+        bar.style.width = "85%";
+
+        const pass2DataUrl = canvas2.toDataURL('image/jpeg', 0.98);
+        const finalDataUrl = injectProEXIF(pass2DataUrl);
+        
+        bar.style.width = "100%";
+        status.innerText = "Reconstruction Complete!";
+
+        downloadBtn.href = finalDataUrl;
+        downloadBtn.download = `protected_${Date.now()}.jpg`;
+        downloadBtn.classList.remove('hidden');
+
+      } catch (error) {
+        console.error(error);
+        status.innerText = "Error: Processing Failed. Try another image.";
+        status.className = "text-xs font-mono text-red-400";
+      }
     }
 
+    // High Frequency Grain
     function applyHighFrequencyNoise(ctx, w, h) {
-      const d = ctx.getImageData(0,0,w,h), data = d.data;
+      const d = ctx.getImageData(0, 0, w, h);
+      const data = d.data;
       for (let i = 0; i < data.length; i += 4) {
-        let n = (Math.random() - 0.5) * 8;
-        data[i] += n; data[i+1] += n; data[i+2] += n;
+        const n = (Math.random() - 0.5) * 8.5;
+        data[i] += n; 
+        data[i+1] += n; 
+        data[i+2] += n;
       }
       ctx.putImageData(d, 0, 0);
     }
 
-    async function stripAndInjectEXIF(blob) {
-      const arrayBuffer = await blob.arrayBuffer();
-      const bytes = new Uint8Array(arrayBuffer);
+    // Piexifjs Base64 Safe Injection
+    function injectProEXIF(base64Jpeg) {
+      const zer = {};
+      const exif = {};
+
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}:${String(now.getMonth()+1).padStart(2,'0')}:${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+
+      zer[piexif.ImageIFD.Make] = "Canon";
+      zer[piexif.ImageIFD.Model] = "Canon EOS R5";
+      zer[piexif.ImageIFD.Software] = "Adobe Photoshop 2024 (Windows)";
       
-      // Create new exif
-      const zer = { [piexif.ImageIFD.Make]: "Canon", [piexif.ImageIFD.Model]: "Canon EOS R5", [piexif.ImageIFD.Software]: "Adobe Photoshop 2024" };
-      const exif = { [piexif.ExifIFD.DateTimeOriginal]: "2026:08:11 18:00:00" };
+      exif[piexif.ExifIFD.LensModel] = "RF50mm F1.2 L USM";
+      exif[piexif.ExifIFD.ISOSpeedRatings] = 100;
+      exif[piexif.ExifIFD.DateTimeOriginal] = dateStr;
+
       const exifBytes = piexif.dump({"0th": zer, "Exif": exif});
-      
-      const newJpeg = piexif.insert(exifBytes, URL.createObjectURL(blob));
-      return newJpeg;
+      return piexif.insert(exifBytes, base64Jpeg);
     }
   </script>
 </body>
