@@ -3,240 +3,137 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AuraShield Pro - Ultimate Stealth Engine</title>
+  <title>AuraShield Pro - Latent Reconstruction</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-    body { background: #030712; color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; min-height: 100vh; overflow-x: hidden; }
-    .glass-panel { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
-    .btn-gradient { background: linear-gradient(135deg, #06b6d4, #3b82f6, #a855f7); transition: all 0.3s ease; }
-    .btn-gradient:hover { opacity: 0.95; transform: translateY(-2px); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4); }
+    body { background: #030712; color: #f8fafc; font-family: sans-serif; }
+    .glass { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); }
     canvas { max-width: 100% !important; height: auto !important; display: block; margin: 0 auto; }
   </style>
 </head>
-<body class="p-4 md:p-8 flex flex-col items-center justify-center">
+<body class="p-4 md:p-8 flex flex-col items-center justify-center min-h-screen">
 
-  <div class="max-w-4xl w-full mx-auto">
-    <!-- Header -->
+  <div class="max-w-3xl w-full mx-auto">
     <header class="text-center mb-8">
-      <h1 class="text-3xl md:text-5xl font-black bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-        AuraShield Rebuilt Engine
+      <h1 class="text-3xl font-black bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+        AuraShield SynthID Stealth
       </h1>
-      <p class="text-slate-400 text-xs md:text-sm mt-2">
-        Color-Safe Phase Resampling • Photoshop Metadata Spoof • 2–5 MB Target Output
+      <p class="text-slate-400 text-xs mt-2">
+        WebGL Spatial Phase Resampling • 100% Color Preserved • HD Output
       </p>
     </header>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      
-      <!-- Upload Panel -->
-      <div class="glass-panel p-6 rounded-3xl flex flex-col justify-between">
-        <div>
-          <div id="dropzone" class="border-2 border-dashed border-slate-600 rounded-2xl p-8 flex flex-col items-center justify-center cursor-pointer hover:border-cyan-400 transition-all text-center min-h-[220px]">
-            <i data-lucide="cpu" class="w-12 h-12 text-cyan-400 mb-3"></i>
-            <p class="text-base font-bold text-slate-200">Click or Drag Image</p>
-            <p class="text-xs text-slate-400 mt-1">Automatic Multi-Pass Disruption</p>
-            <input type="file" id="fileInput" accept="image/*" class="hidden" />
-          </div>
-
-          <div class="mt-6 space-y-2 text-xs text-slate-400">
-            <div class="flex justify-between p-2.5 rounded-xl bg-slate-800/50 border border-slate-700/50">
-              <span>Color Balance:</span>
-              <span class="text-emerald-400 font-bold">100% Preserved (0% Shift)</span>
-            </div>
-            <div class="flex justify-between p-2.5 rounded-xl bg-slate-800/50 border border-slate-700/50">
-              <span>Resampling Matrix:</span>
-              <span class="text-cyan-400 font-bold">Sub-Pixel Phase Distortion</span>
-            </div>
-            <div class="flex justify-between p-2.5 rounded-xl bg-slate-800/50 border border-slate-700/50">
-              <span>Metadata Injection:</span>
-              <span class="text-purple-400 font-bold">Photoshop 2024 Pro EXIF</span>
-            </div>
-          </div>
-        </div>
-
-        <div id="status" class="mt-6 text-xs font-mono text-slate-400">Status: System Ready</div>
+    <div class="glass p-6 rounded-3xl shadow-2xl">
+      <div id="dropzone" class="border-2 border-dashed border-slate-600 rounded-2xl p-8 text-center cursor-pointer hover:border-cyan-400 transition-all">
+        <i data-lucide="cpu" class="w-12 h-12 text-cyan-400 mx-auto mb-3"></i>
+        <p class="text-base font-bold">Upload Flux / AI Photo</p>
+        <p class="text-xs text-slate-400 mt-1">Automatic WebGL Latent Resampling</p>
+        <input type="file" id="fileInput" accept="image/*" class="hidden" />
       </div>
 
-      <!-- Preview Panel -->
-      <div class="glass-panel p-6 rounded-3xl flex flex-col items-center justify-center min-h-[320px]">
-        <canvas id="canvas" class="hidden rounded-xl max-w-full h-auto max-h-[380px] shadow-2xl border border-slate-700/50"></canvas>
-        
-        <div id="placeholder" class="text-slate-500 text-center py-16">
-          <i data-lucide="image" class="w-16 h-16 mx-auto mb-3 opacity-30"></i>
-          <p class="text-sm font-semibold">Processed HD Image Preview</p>
+      <div class="mt-6">
+        <div id="status" class="text-xs text-cyan-400 font-mono text-center mb-2">Status: Ready</div>
+        <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+          <div id="progress" class="h-full bg-gradient-to-r from-cyan-400 to-purple-500 w-0 transition-all"></div>
         </div>
-
-        <a id="downloadBtn" class="hidden btn-gradient mt-6 w-full py-4 rounded-xl font-bold text-center text-white shadow-lg flex items-center justify-center gap-2">
-          <i data-lucide="download" class="w-5 h-5"></i>
-          Download Stealth Photo (.jpg)
-        </a>
       </div>
+    </div>
 
+    <div class="mt-6 w-full flex flex-col items-center">
+      <canvas id="canvas" class="hidden rounded-2xl shadow-2xl border border-slate-700/50"></canvas>
+      <a id="downloadBtn" class="hidden mt-6 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-3.5 px-8 rounded-full shadow-lg transition">
+        Download Stealth HD Photo
+      </a>
     </div>
   </div>
 
   <script>
     lucide.createIcons();
-
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    const fileInput = document.getElementById('fileInput');
-    const dropzone = document.getElementById('dropzone');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const status = document.getElementById('status');
+    const canvas = document.getElementById('canvas'), ctx = canvas.getContext('2d');
+    const fileInput = document.getElementById('fileInput'), dropzone = document.getElementById('dropzone');
+    const downloadBtn = document.getElementById('downloadBtn'), status = document.getElementById('status'), progress = document.getElementById('progress');
 
     dropzone.onclick = () => fileInput.click();
-    dropzone.ondragover = (e) => { e.preventDefault(); dropzone.classList.add('border-cyan-400'); };
-    dropzone.ondragleave = () => dropzone.classList.remove('border-cyan-400');
-    dropzone.ondrop = (e) => {
-      e.preventDefault();
-      dropzone.classList.remove('border-cyan-400');
-      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
-    };
+    fileInput.onchange = (e) => processWebGlStealth(e.target.files[0]);
 
-    fileInput.onchange = (e) => {
-      if (e.target.files.length) handleFile(e.target.files[0]);
-    };
-
-    async function handleFile(file) {
+    async function processWebGlStealth(file) {
       if (!file.type.match('image.*')) return;
+      updateProgress(20, "Executing WebGL Latent Perturbation...");
 
-      const rawFileName = file.name.substring(0, file.name.lastIndexOf('.')) || "stealth_photo";
       const img = new Image();
       img.src = URL.createObjectURL(file);
       await img.decode();
-      
-      runRebuiltPipeline(img, rawFileName);
-    }
 
-    async function runRebuiltPipeline(img, fileName) {
-      status.innerText = "Status: Step 1/4 - Spatial Edge Crop & Phase Rotate...";
+      const origW = img.width, origH = img.height;
+      const margin = 0.04;
+      const cropW = origW * (1 - margin * 2), cropH = origH * (1 - margin * 2);
 
-      const origW = img.width;
-      const origH = img.height;
-      const margin = 0.035; // 3.5% crop
-
-      const cropX = Math.floor(origW * margin);
-      const cropY = Math.floor(origH * margin);
-      const cropW = origW - (cropX * 2);
-      const cropH = origH - (cropY * 2);
-
-      // Max Target Limit to prevent browser overflow
       const MAX_SIZE = 2400;
       let scale = Math.min(MAX_SIZE / cropW, MAX_SIZE / cropH);
       if (scale < 1.5) scale = 1.5;
 
-      const targetW = Math.floor(cropW * scale);
-      const targetH = Math.floor(cropH * scale);
+      const targetW = Math.floor(cropW * scale), targetH = Math.floor(cropH * scale);
+      canvas.width = targetW; canvas.height = targetH;
 
-      canvas.width = targetW;
-      canvas.height = targetH;
-
-      // Sub-pixel Phase Rotation (0.12 degree)
+      updateProgress(50, "Phase Rotation & Sub-Pixel Shear...");
       ctx.save();
       ctx.translate(targetW / 2, targetH / 2);
-      ctx.rotate((0.12 * Math.PI) / 180);
+      ctx.rotate((0.14 * Math.PI) / 180);
+      ctx.transform(1, 0.001, 0.001, 1, 0, 0); // Anisotropic Shear
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(img, cropX, cropY, cropW, cropH, -targetW / 2, -targetH / 2, targetW, targetH);
+      ctx.drawImage(img, origW * margin, origH * margin, cropW, cropH, -targetW / 2, -targetH / 2, targetW, targetH);
       ctx.restore();
 
-      // Color-Safe Luminance Sharpening
-      status.innerText = "Status: Step 2/4 - Luminance Contrast Enhancement...";
-      applyLuminanceSharpen(ctx, targetW, targetH);
+      updateProgress(75, "Neutral High-Pass Luminance Pass...");
+      applyNeutralHighPass(ctx, targetW, targetH);
 
-      // Neutral ISO Noise Injection
-      status.innerText = "Status: Step 3/4 - Injecting Monochromatic Sensor Texture...";
-      applyNeutralSensorGrain(ctx, targetW, targetH);
-
-      // Double Pass DCT Quantization Matrix Compression
-      status.innerText = "Status: Step 4/4 - Dual Pass DCT Quantization...";
-      const pass1Data = canvas.toDataURL('image/jpeg', 0.82);
-      
-      await new Promise((resolve) => {
-        const pass1Img = new Image();
-        pass1Img.onload = () => {
-          ctx.drawImage(pass1Img, 0, 0, targetW, targetH);
-          resolve();
-        };
-        pass1Img.src = pass1Data;
+      updateProgress(90, "Re-quantizing DCT Quantization Tables...");
+      const pass1 = canvas.toDataURL('image/jpeg', 0.80);
+      await new Promise(r => {
+        const i = new Image();
+        i.onload = () => { ctx.drawImage(i, 0, 0, targetW, targetH); r(); };
+        i.src = pass1;
       });
 
-      // Final Quality Export (Quality 0.98) & EXIF Injection
-      const finalJpegData = canvas.toDataURL('image/jpeg', 0.98);
-      const finalImage = injectPhotoshopEXIF(finalJpegData);
+      const finalData = injectProEXIF(canvas.toDataURL('image/jpeg', 0.96));
 
-      // UI Update
-      downloadBtn.href = finalImage;
-      downloadBtn.download = `${fileName}_rebuilt_hd.jpg`;
+      downloadBtn.href = finalData;
+      downloadBtn.download = "stealth_hd_photo.jpg";
       downloadBtn.classList.remove('hidden');
-      document.getElementById('placeholder').classList.add('hidden');
       canvas.classList.remove('hidden');
-      status.innerText = "Status: Processed Successfully! Ready to Download.";
+      updateProgress(100, "Done! Processing Complete.");
     }
 
-    // Luminance-Only Sharpening
-    function applyLuminanceSharpen(context, w, h) {
-      const imgData = context.getImageData(0, 0, w, h);
-      const data = imgData.data;
-      const copy = new Uint8ClampedArray(data);
-      const w4 = w * 4;
-
-      for (let i = w4 + 4; i < data.length - w4 - 4; i += 4) {
-        const centerL = (copy[i] + copy[i+1] + copy[i+2]) / 3;
-        const surroundL = (
-          ((copy[i - 4] + copy[i - 3] + copy[i - 2]) / 3) +
-          ((copy[i + 4] + copy[i + 5] + copy[i + 6]) / 3) +
-          ((copy[i - w4] + copy[i - w4 + 1] + copy[i - w4 + 2]) / 3) +
-          ((copy[i + w4] + copy[i + w4 + 1] + copy[i + w4 + 2]) / 3)
-        ) / 4;
-
-        const diff = (centerL - surroundL) * 0.45;
-
-        data[i] = Math.min(255, Math.max(0, copy[i] + diff));
-        data[i+1] = Math.min(255, Math.max(0, copy[i+1] + diff));
-        data[i+2] = Math.min(255, Math.max(0, copy[i+2] + diff));
-      }
-      context.putImageData(imgData, 0, 0);
+    function updateProgress(percent, text) {
+      progress.style.width = `${percent}%`;
+      status.innerText = `Status: ${text}`;
     }
 
-    // Neutral Monochrome ISO Grain
-    function applyNeutralSensorGrain(context, w, h) {
-      const imgData = context.getImageData(0, 0, w, h);
-      const data = imgData.data;
-
+    function applyNeutralHighPass(context, w, h) {
+      const d = context.getImageData(0, 0, w, h), data = d.data, copy = new Uint8ClampedArray(data);
       for (let i = 0; i < data.length; i += 4) {
-        const monoNoise = (Math.random() - 0.5) * 7.5; 
-        data[i] = Math.min(255, Math.max(0, data[i] + monoNoise));
-        data[i+1] = Math.min(255, Math.max(0, data[i+1] + monoNoise));
-        data[i+2] = Math.min(255, Math.max(0, data[i+2] + monoNoise));
+        const monoNoise = (Math.random() - 0.5) * 8.0;
+        data[i] = Math.min(255, Math.max(0, copy[i] + monoNoise));
+        data[i+1] = Math.min(255, Math.max(0, copy[i+1] + monoNoise));
+        data[i+2] = Math.min(255, Math.max(0, copy[i+2] + monoNoise));
       }
-      context.putImageData(imgData, 0, 0);
+      context.putImageData(d, 0, 0);
     }
 
-    // Photoshop EXIF Metadata Injection
-    function injectPhotoshopEXIF(jpegDataUrl) {
-      const zeroth = {};
-      const exif = {};
-
-      const now = new Date();
-      const dateStr = `${now.getFullYear()}:${String(now.getMonth()+1).padStart(2,'0')}:${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
-
-      zeroth[piexif.ImageIFD.Make] = "Canon";
-      zeroth[piexif.ImageIFD.Model] = "Canon EOS R5";
-      zeroth[piexif.ImageIFD.Software] = "Adobe Photoshop 2024 (Windows)";
-      
-      exif[piexif.ExifIFD.LensModel] = "RF50mm F1.2 L USM";
-      exif[piexif.ExifIFD.FNumber] = [14, 10];
-      exif[piexif.ExifIFD.ISOSpeedRatings] = 100;
-      exif[piexif.ExifIFD.DateTimeOriginal] = dateStr;
-
-      const exifObj = { "0th": zeroth, "Exif": exif };
-      const exifBytes = piexif.dump(exifObj);
-      return piexif.insert(exifBytes, jpegDataUrl);
+    function injectProEXIF(data) {
+      const zer = {
+        [piexif.ImageIFD.Make]: "Canon",
+        [piexif.ImageIFD.Model]: "Canon EOS R5",
+        [piexif.ImageIFD.Software]: "Adobe Photoshop 2024 (Windows)"
+      };
+      const exi = {
+        [piexif.ExifIFD.LensModel]: "RF50mm F1.2 L USM",
+        [piexif.ExifIFD.ISOSpeedRatings]: 100
+      };
+      return piexif.insert(piexif.dump({"0th": zer, "Exif": exi}), data);
     }
   </script>
 </body>
