@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>AuraShield Pro — Ultimate 5MB+ Crystal Clear & EXIF Suite</title>
+  <title>AuraShield Pro — Lanczos-3 HD & EXIF Suite</title>
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Piexifjs for Metadata Injection -->
+  <!-- Piexifjs for Metadata -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
+  <!-- Pica.js for High-End Lanczos-3 Pixel Resampling Plugin -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pica/9.0.1/pica.min.js"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -42,23 +43,15 @@
 
     .btn-gradient {
       background: linear-gradient(135deg, #0284c7 0%, #6366f1 50%, #9333ea 100%);
-      background-size: 200% 200%;
-      animation: gradientMove 6s ease infinite;
     }
 
-    @keyframes gradientMove {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    input, select {
+    input {
       background: rgba(15, 23, 42, 0.9) !important;
       border: 1px solid rgba(255, 255, 255, 0.15) !important;
       color: #f8fafc !important;
     }
 
-    input:focus, select:focus {
+    input:focus {
       border-color: #38bdf8 !important;
       outline: none !important;
     }
@@ -66,9 +59,8 @@
     canvas {
       max-width: 100% !important;
       height: auto !important;
-      max-height: 40vh;
+      max-height: 38vh;
       object-fit: contain;
-      image-rendering: crisp-edges;
     }
   </style>
 </head>
@@ -81,14 +73,14 @@
         <i data-lucide="sparkles" class="w-6 h-6 sm:w-7 sm:h-7 text-cyan-400"></i>
       </div>
       <div>
-        <span class="text-xl sm:text-2xl font-black tracking-tight">Aura<span class="gradient-text">Shield Ultra</span></span>
-        <span class="hidden sm:block text-[10px] text-slate-400 font-bold tracking-widest uppercase">5MB+ Crystal Clear & EXIF Suite</span>
+        <span class="text-xl sm:text-2xl font-black tracking-tight">Aura<span class="gradient-text">Shield HD</span></span>
+        <span class="hidden sm:block text-[10px] text-slate-400 font-bold tracking-widest uppercase">Lanczos-3 Resampler & EXIF Suite</span>
       </div>
     </div>
 
     <div class="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full glass-panel text-xs font-semibold text-emerald-400 border border-emerald-500/30">
-      <i data-lucide="shield-check" class="w-4 h-4"></i>
-      <span>4K UHD • On-Device</span>
+      <i data-lucide="cpu" class="w-4 h-4"></i>
+      <span>Pica.js Active</span>
     </div>
   </header>
 
@@ -97,11 +89,11 @@
     
     <div class="text-center max-w-3xl mx-auto mb-8">
       <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight mb-3">
-        Full Metadata Control & <br class="hidden sm:inline" />
-        <span class="gradient-text">5–6 MB Crystal Clear HD</span>
+        Lanczos-3 HD Resampling & <br class="hidden sm:inline" />
+        <span class="gradient-text">Full EXIF Metadata Control</span>
       </h1>
       <p class="text-slate-400 text-xs sm:text-base max-w-xl mx-auto">
-        Multi-kernel high pass edge reconstruction with sub-pixel sensor noise for ultra-crisp zoom details and authentic camera metadata.
+        Uses Pica.js Lanczos-3 filter with Unsharp Mask to retain crystal clear pixel edges while managing full EXIF metadata.
       </p>
     </div>
 
@@ -117,7 +109,7 @@
             <i data-lucide="upload-cloud" class="w-6 h-6 text-cyan-400"></i>
           </div>
           <p class="text-sm sm:text-base font-bold text-slate-100">Drop Photo or Tap to Select</p>
-          <p class="text-xs text-slate-400">Auto-upscales to 4K / 5–6 MB Output</p>
+          <p class="text-xs text-slate-400">Crisp Lanczos-3 Resampling</p>
         </div>
 
         <!-- Presets -->
@@ -146,7 +138,7 @@
         <div class="glass-panel rounded-3xl p-5 space-y-4">
           <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
             <i data-lucide="edit-3" class="w-4 h-4 text-cyan-400"></i>
-            Metadata Fields (Date, GPS, Camera, Software)
+            Metadata Fields
           </h3>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
@@ -193,27 +185,27 @@
         <div class="glass-panel rounded-3xl p-4 flex flex-col items-center justify-center min-h-[240px] relative overflow-hidden">
           <div id="previewPlaceholder" class="text-center text-slate-500 py-12">
             <i data-lucide="image" class="w-12 h-12 mx-auto mb-2 opacity-30"></i>
-            <p class="text-xs font-semibold">Processed 4K Preview</p>
+            <p class="text-xs font-semibold">Crisp Preview</p>
           </div>
           <canvas id="canvas" class="hidden rounded-2xl shadow-2xl border border-slate-700/60"></canvas>
         </div>
 
         <div class="glass-panel rounded-3xl p-5 space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">File Output Target</span>
-            <span id="fileSizeTag" class="text-[10px] font-mono font-bold px-2.5 py-1 rounded bg-slate-800 text-cyan-400">Target: 5.0 - 6.5 MB</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Processing Engine</span>
+            <span id="fileSizeTag" class="text-[10px] font-mono font-bold px-2.5 py-1 rounded bg-slate-800 text-cyan-400">Lanczos-3 Engine Ready</span>
           </div>
 
           <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
             <div id="bar" class="h-full bg-gradient-to-r from-cyan-400 to-purple-500 w-0 transition-all duration-300"></div>
           </div>
 
-          <button id="processBtn" onclick="processUltraHD()" class="btn-gradient w-full py-3.5 rounded-2xl font-extrabold text-white text-sm shadow-xl flex items-center justify-center gap-2 cursor-pointer transition hover:opacity-95">
-            <i data-lucide="zap" class="w-4 h-4"></i> Apply Settings & Export 5MB+ HD
+          <button id="processBtn" onclick="processLanczosHD()" class="btn-gradient w-full py-3.5 rounded-2xl font-extrabold text-white text-sm shadow-xl flex items-center justify-center gap-2 cursor-pointer transition hover:opacity-95">
+            <i data-lucide="zap" class="w-4 h-4"></i> Run Lanczos-3 & Apply EXIF
           </button>
 
           <a id="downloadBtn" class="hidden btn-gradient w-full py-3.5 rounded-2xl font-extrabold text-white text-center text-sm shadow-xl flex items-center justify-center gap-2 cursor-pointer">
-            <i data-lucide="download" class="w-5 h-5"></i> Download Ultra-HD Photo
+            <i data-lucide="download" class="w-5 h-5"></i> Download Crisp Photo (.jpg)
           </a>
         </div>
 
@@ -223,11 +215,12 @@
   </main>
 
   <footer class="relative z-10 border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
-    AuraShield Engine • 4K Super-Sampled Output • 100% On-Device
+    AuraShield Engine • Lanczos-3 Plugin Integration • 100% On-Device
   </footer>
 
   <script>
     lucide.createIcons();
+    const picaInstance = window.pica ? window.pica() : null;
 
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('fileInput');
@@ -259,7 +252,7 @@
           canvas.width = loadedImage.width;
           canvas.height = loadedImage.height;
           ctx.drawImage(loadedImage, 0, 0);
-          fileSizeTag.innerText = "Ready to Upscale & Export";
+          fileSizeTag.innerText = "Photo Ready";
           bar.style.width = "20%";
         };
         loadedImage.src = e.target.result;
@@ -275,112 +268,74 @@
         document.getElementById('exifCopyright').value = "";
         document.getElementById('exifSoftware').value = "";
         document.getElementById('exifDate').value = "";
-        document.getElementById('exifLat').value = "0";
-        document.getElementById('exifLng').value = "0";
       } else if (type === 'social') {
         document.getElementById('exifMake').value = "Apple";
         document.getElementById('exifModel').value = "iPhone 15 Pro Max";
         document.getElementById('exifSoftware').value = "iOS 17.5";
-        document.getElementById('exifArtist').value = "Mobile Creator";
       } else if (type === 'marketplace') {
         document.getElementById('exifMake').value = "Sony";
         document.getElementById('exifModel').value = "ILCE-7RM5";
         document.getElementById('exifSoftware').value = "Capture One 23";
-        document.getElementById('exifCopyright').value = "Verified Marketplace Seller";
       } else if (type === 'pro_camera') {
         document.getElementById('exifMake').value = "Canon";
         document.getElementById('exifModel').value = "Canon EOS R5";
         document.getElementById('exifSoftware').value = "Adobe Photoshop 2024";
-        document.getElementById('exifArtist').value = "Pro Studio";
       }
     }
 
-    async function processUltraHD() {
+    async function processLanczosHD() {
       if (!loadedImage) {
         alert("Please upload an image first!");
         return;
       }
 
       try {
-        fileSizeTag.innerText = "Upscaling Matrix to 4K...";
+        fileSizeTag.innerText = "Executing Lanczos-3 Filter...";
         bar.style.width = "40%";
 
-        const origW = loadedImage.width;
-        const origH = loadedImage.height;
+        const origCanvas = document.createElement('canvas');
+        origCanvas.width = loadedImage.width;
+        origCanvas.height = loadedImage.height;
+        const origCtx = origCanvas.getContext('2d');
+        origCtx.drawImage(loadedImage, 0, 0);
 
-        // Force Target Resolution for 5MB+ size (Min 3400px width/height)
-        const TARGET_MIN_SIZE = 3400;
-        let scale = Math.max(1.6, TARGET_MIN_SIZE / Math.max(origW, origH));
+        canvas.width = loadedImage.width;
+        canvas.height = loadedImage.height;
 
-        const targetW = Math.floor(origW * scale);
-        const targetH = Math.floor(origH * scale);
+        // Pica.js Lanczos-3 Filter with Unsharp Mask to prevent pixel blurring
+        if (picaInstance) {
+          await picaInstance.resize(origCanvas, canvas, {
+            filter: 'lanczos3',
+            unsharpAmount: 90,
+            unsharpRadius: 0.6,
+            unsharpThreshold: 2
+          });
+        } else {
+          ctx.drawImage(loadedImage, 0, 0);
+        }
 
-        canvas.width = targetW;
-        canvas.height = targetH;
+        fileSizeTag.innerText = "Encoding JPEG & EXIF...";
+        bar.style.width = "80%";
 
-        // Crystal Clear High Density Rendering
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-        ctx.drawImage(loadedImage, 0, 0, targetW, targetH);
-
-        fileSizeTag.innerText = "Reconstructing Crystal Clear Edges...";
-        bar.style.width = "70%";
-
-        // Apply Micro Grain & Sharp Edge Texture (Stops blur on zoom)
-        applyUltraEdgeReconstruction(ctx, targetW, targetH);
-
-        fileSizeTag.innerText = "Injecting High-Bitrate Metadata...";
-        bar.style.width = "90%";
-
-        // Save at 0.99 Bitrate for 5MB - 7MB size
-        const base64Jpeg = canvas.toDataURL('image/jpeg', 0.99);
+        const base64Jpeg = canvas.toDataURL('image/jpeg', 0.98);
         const finalJpeg = buildAndInjectEXIF(base64Jpeg);
 
-        // Calculate live file size in MB
+        // Size calculation
         const stringLength = finalJpeg.length - 'data:image/jpeg;base64,'.length;
         const sizeInBytes = 4 * Math.ceil(stringLength / 3) * 0.5624896334383612;
         const sizeInMb = (sizeInBytes / (1024 * 1024)).toFixed(2);
 
         bar.style.width = "100%";
-        fileSizeTag.innerText = `Final Size: ~${sizeInMb} MB (Crystal Clear)`;
+        fileSizeTag.innerText = `Render Complete: ~${sizeInMb} MB`;
 
         downloadBtn.href = finalJpeg;
-        downloadBtn.download = `${rawFileName}_4k_ultra_hd.jpg`;
+        downloadBtn.download = `${rawFileName}_lanczos_hd.jpg`;
         downloadBtn.classList.remove('hidden');
 
       } catch (err) {
         console.error(err);
-        fileSizeTag.innerText = "Error Processing 4K Stream";
+        fileSizeTag.innerText = "Error in Lanczos Execution";
       }
-    }
-
-    // Edge-Preserving Contrast & Micro-Sensor Details
-    function applyUltraEdgeReconstruction(context, w, h) {
-      const imgData = context.getImageData(0, 0, w, h);
-      const data = imgData.data;
-      const copy = new Uint8ClampedArray(data);
-      const w4 = w * 4;
-
-      for (let i = w4 + 4; i < data.length - w4 - 4; i += 4) {
-        const centerR = copy[i], centerG = copy[i+1], centerB = copy[i+2];
-
-        // High Pass Edge Filter
-        const topR = copy[i - w4], leftR = copy[i - 4], rightR = copy[i + 4], bottomR = copy[i + w4];
-        const topG = copy[i - w4 + 1], leftG = copy[i - 3], rightG = copy[i + 5], bottomG = copy[i + w4 + 1];
-        const topB = copy[i - w4 + 2], leftB = copy[i - 2], rightB = copy[i + 6], bottomB = copy[i + w4 + 2];
-
-        const sharpR = centerR * 4.4 - (topR + leftR + rightR + bottomR) * 0.85;
-        const sharpG = centerG * 4.4 - (topG + leftG + rightG + bottomG) * 0.85;
-        const sharpB = centerB * 4.4 - (topB + leftB + rightB + bottomB) * 0.85;
-
-        // Sub-pixel physical sensor noise (Ensures clarity & 5MB+ byte weight)
-        const sensorNoise = (Math.random() - 0.5) * 5.2;
-
-        data[i] = Math.min(255, Math.max(0, sharpR + sensorNoise));
-        data[i+1] = Math.min(255, Math.max(0, sharpG + sensorNoise));
-        data[i+2] = Math.min(255, Math.max(0, sharpB + sensorNoise));
-      }
-      context.putImageData(imgData, 0, 0);
     }
 
     function degToRational(deg) {
