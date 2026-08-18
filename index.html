@@ -3,20 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>ExifCleaner Pro — Anti-Blur Sub-Pixel Engine</title>
+  <title>AuraShield Pro — Ultimate 5MB+ Crystal Clear & EXIF Suite</title>
   
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Piexifjs for Metadata Injection -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/piexifjs/1.0.6/piexif.js"></script>
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background: #030712;
+      background: #020617;
       color: #f8fafc;
       min-height: 100vh;
       overflow-x: hidden;
@@ -24,8 +28,8 @@
 
     .glass-panel {
       background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     }
@@ -38,15 +42,23 @@
 
     .btn-gradient {
       background: linear-gradient(135deg, #0284c7 0%, #6366f1 50%, #9333ea 100%);
+      background-size: 200% 200%;
+      animation: gradientMove 6s ease infinite;
     }
 
-    input {
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    input, select {
       background: rgba(15, 23, 42, 0.9) !important;
       border: 1px solid rgba(255, 255, 255, 0.15) !important;
       color: #f8fafc !important;
     }
 
-    input:focus {
+    input:focus, select:focus {
       border-color: #38bdf8 !important;
       outline: none !important;
     }
@@ -54,11 +66,9 @@
     canvas {
       max-width: 100% !important;
       height: auto !important;
-      max-height: 38vh;
+      max-height: 40vh;
       object-fit: contain;
-      image-rendering: -webkit-optimize-contrast;
       image-rendering: crisp-edges;
-      image-rendering: pixelated;
     }
   </style>
 </head>
@@ -71,14 +81,14 @@
         <i data-lucide="sparkles" class="w-6 h-6 sm:w-7 sm:h-7 text-cyan-400"></i>
       </div>
       <div>
-        <span class="text-xl sm:text-2xl font-black tracking-tight">Exif<span class="gradient-text">Cleaner Pro</span></span>
-        <span class="hidden sm:block text-[10px] text-slate-400 font-bold tracking-widest uppercase">Sub-Pixel Grain & EXIF Matrix</span>
+        <span class="text-xl sm:text-2xl font-black tracking-tight">Aura<span class="gradient-text">Shield Ultra</span></span>
+        <span class="hidden sm:block text-[10px] text-slate-400 font-bold tracking-widest uppercase">5MB+ Crystal Clear & EXIF Suite</span>
       </div>
     </div>
 
     <div class="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full glass-panel text-xs font-semibold text-emerald-400 border border-emerald-500/30">
       <i data-lucide="shield-check" class="w-4 h-4"></i>
-      <span>On-Device Privacy</span>
+      <span>4K UHD • On-Device</span>
     </div>
   </header>
 
@@ -87,11 +97,11 @@
     
     <div class="text-center max-w-3xl mx-auto mb-8">
       <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight mb-3">
-        Edit Metadata & <br class="hidden sm:inline" />
-        <span class="gradient-text">Sub-Pixel Grain Reconstruction</span>
+        Full Metadata Control & <br class="hidden sm:inline" />
+        <span class="gradient-text">5–6 MB Crystal Clear HD</span>
       </h1>
       <p class="text-slate-400 text-xs sm:text-base max-w-xl mx-auto">
-        Replaces smooth AI pixel blur on zoom with physical camera sensor grain and sharp high-pass edge matrix.
+        Multi-kernel high pass edge reconstruction with sub-pixel sensor noise for ultra-crisp zoom details and authentic camera metadata.
       </p>
     </div>
 
@@ -107,7 +117,7 @@
             <i data-lucide="upload-cloud" class="w-6 h-6 text-cyan-400"></i>
           </div>
           <p class="text-sm sm:text-base font-bold text-slate-100">Drop Photo or Tap to Select</p>
-          <p class="text-xs text-slate-400">Supports JPG, WEBP, PNG</p>
+          <p class="text-xs text-slate-400">Auto-upscales to 4K / 5–6 MB Output</p>
         </div>
 
         <!-- Presets -->
@@ -136,7 +146,7 @@
         <div class="glass-panel rounded-3xl p-5 space-y-4">
           <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
             <i data-lucide="edit-3" class="w-4 h-4 text-cyan-400"></i>
-            Edit Fields (Date, GPS, Camera, Software)
+            Metadata Fields (Date, GPS, Camera, Software)
           </h3>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
@@ -150,7 +160,7 @@
             </div>
             <div>
               <label class="block text-slate-400 mb-1 font-semibold">Author / Artist</label>
-              <input type="text" id="exifArtist" value="Pro Photographer" class="w-full p-2.5 rounded-xl">
+              <input type="text" id="exifArtist" value="Pro Studio" class="w-full p-2.5 rounded-xl">
             </div>
             <div>
               <label class="block text-slate-400 mb-1 font-semibold">Copyright</label>
@@ -165,11 +175,11 @@
               <input type="text" id="exifDate" value="2026:08:11 18:00:00" class="w-full p-2.5 rounded-xl">
             </div>
             <div>
-              <label class="block text-slate-400 mb-1 font-semibold">GPS Latitude</label>
+              <label class="block text-slate-400 mb-1 font-semibold">GPS Latitude (N)</label>
               <input type="text" id="exifLat" value="23.7104" class="w-full p-2.5 rounded-xl">
             </div>
             <div>
-              <label class="block text-slate-400 mb-1 font-semibold">GPS Longitude</label>
+              <label class="block text-slate-400 mb-1 font-semibold">GPS Longitude (E)</label>
               <input type="text" id="exifLng" value="90.4074" class="w-full p-2.5 rounded-xl">
             </div>
           </div>
@@ -183,27 +193,27 @@
         <div class="glass-panel rounded-3xl p-4 flex flex-col items-center justify-center min-h-[240px] relative overflow-hidden">
           <div id="previewPlaceholder" class="text-center text-slate-500 py-12">
             <i data-lucide="image" class="w-12 h-12 mx-auto mb-2 opacity-30"></i>
-            <p class="text-xs font-semibold">Processed Image Preview</p>
+            <p class="text-xs font-semibold">Processed 4K Preview</p>
           </div>
           <canvas id="canvas" class="hidden rounded-2xl shadow-2xl border border-slate-700/60"></canvas>
         </div>
 
         <div class="glass-panel rounded-3xl p-5 space-y-4">
           <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Status</span>
-            <span id="status" class="text-[10px] font-mono font-bold px-2.5 py-1 rounded bg-slate-800 text-cyan-400">System Ready</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">File Output Target</span>
+            <span id="fileSizeTag" class="text-[10px] font-mono font-bold px-2.5 py-1 rounded bg-slate-800 text-cyan-400">Target: 5.0 - 6.5 MB</span>
           </div>
 
           <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
             <div id="bar" class="h-full bg-gradient-to-r from-cyan-400 to-purple-500 w-0 transition-all duration-300"></div>
           </div>
 
-          <button id="processBtn" onclick="processImage()" class="btn-gradient w-full py-3.5 rounded-2xl font-extrabold text-white text-sm shadow-xl flex items-center justify-center gap-2 cursor-pointer transition hover:opacity-95">
-            <i data-lucide="zap" class="w-4 h-4"></i> Apply Sub-Pixel Grain & EXIF
+          <button id="processBtn" onclick="processUltraHD()" class="btn-gradient w-full py-3.5 rounded-2xl font-extrabold text-white text-sm shadow-xl flex items-center justify-center gap-2 cursor-pointer transition hover:opacity-95">
+            <i data-lucide="zap" class="w-4 h-4"></i> Apply Settings & Export 5MB+ HD
           </button>
 
           <a id="downloadBtn" class="hidden btn-gradient w-full py-3.5 rounded-2xl font-extrabold text-white text-center text-sm shadow-xl flex items-center justify-center gap-2 cursor-pointer">
-            <i data-lucide="download" class="w-4 h-4"></i> Download Photo (.jpg)
+            <i data-lucide="download" class="w-5 h-5"></i> Download Ultra-HD Photo
           </a>
         </div>
 
@@ -213,7 +223,7 @@
   </main>
 
   <footer class="relative z-10 border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
-    ExifCleaner Pro Engine • 100% On-Device Privacy Guaranteed
+    AuraShield Engine • 4K Super-Sampled Output • 100% On-Device
   </footer>
 
   <script>
@@ -225,7 +235,7 @@
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     const previewPlaceholder = document.getElementById('previewPlaceholder');
-    const status = document.getElementById('status');
+    const fileSizeTag = document.getElementById('fileSizeTag');
     const bar = document.getElementById('bar');
 
     let loadedImage = null;
@@ -248,11 +258,8 @@
           canvas.classList.remove('hidden');
           canvas.width = loadedImage.width;
           canvas.height = loadedImage.height;
-          
-          ctx.imageSmoothingEnabled = false;
           ctx.drawImage(loadedImage, 0, 0);
-
-          status.innerText = "Photo Loaded";
+          fileSizeTag.innerText = "Ready to Upscale & Export";
           bar.style.width = "20%";
         };
         loadedImage.src = e.target.result;
@@ -270,74 +277,85 @@
         document.getElementById('exifDate').value = "";
         document.getElementById('exifLat').value = "0";
         document.getElementById('exifLng').value = "0";
-        status.innerText = "Preset: Strip All EXIF";
       } else if (type === 'social') {
         document.getElementById('exifMake').value = "Apple";
-        document.getElementById('exifModel').value = "iPhone 15 Pro";
+        document.getElementById('exifModel').value = "iPhone 15 Pro Max";
         document.getElementById('exifSoftware').value = "iOS 17.5";
         document.getElementById('exifArtist').value = "Mobile Creator";
-        status.innerText = "Preset: Social Media";
       } else if (type === 'marketplace') {
         document.getElementById('exifMake').value = "Sony";
-        document.getElementById('exifModel').value = "ILCE-7RM4";
+        document.getElementById('exifModel').value = "ILCE-7RM5";
         document.getElementById('exifSoftware').value = "Capture One 23";
         document.getElementById('exifCopyright').value = "Verified Marketplace Seller";
-        status.innerText = "Preset: Marketplace";
       } else if (type === 'pro_camera') {
         document.getElementById('exifMake').value = "Canon";
         document.getElementById('exifModel').value = "Canon EOS R5";
         document.getElementById('exifSoftware').value = "Adobe Photoshop 2024";
-        document.getElementById('exifArtist').value = "Studio Pro";
-        status.innerText = "Preset: DSLR Pro";
+        document.getElementById('exifArtist').value = "Pro Studio";
       }
     }
 
-    async function processImage() {
+    async function processUltraHD() {
       if (!loadedImage) {
         alert("Please upload an image first!");
         return;
       }
 
       try {
-        status.innerText = "Reconstructing Sub-Pixel Micro-Grain...";
-        bar.style.width = "50%";
+        fileSizeTag.innerText = "Upscaling Matrix to 4K...";
+        bar.style.width = "40%";
 
-        canvas.width = loadedImage.width;
-        canvas.height = loadedImage.height;
+        const origW = loadedImage.width;
+        const origH = loadedImage.height;
 
-        ctx.imageSmoothingEnabled = false;
-        ctx.webkitImageSmoothingEnabled = false;
-        ctx.mozImageSmoothingEnabled = false;
+        // Force Target Resolution for 5MB+ size (Min 3400px width/height)
+        const TARGET_MIN_SIZE = 3400;
+        let scale = Math.max(1.6, TARGET_MIN_SIZE / Math.max(origW, origH));
 
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(loadedImage, 0, 0);
+        const targetW = Math.floor(origW * scale);
+        const targetH = Math.floor(origH * scale);
 
-        // Inject Sub-Pixel Grain & Edge Sharpen Matrix
-        applySubPixelGrainAndSharpen(ctx, canvas.width, canvas.height);
+        canvas.width = targetW;
+        canvas.height = targetH;
 
-        status.innerText = "Injecting EXIF Camera Metadata...";
-        bar.style.width = "85%";
+        // Crystal Clear High Density Rendering
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+        ctx.drawImage(loadedImage, 0, 0, targetW, targetH);
 
-        const base64Jpeg = canvas.toDataURL('image/jpeg', 0.98);
+        fileSizeTag.innerText = "Reconstructing Crystal Clear Edges...";
+        bar.style.width = "70%";
+
+        // Apply Micro Grain & Sharp Edge Texture (Stops blur on zoom)
+        applyUltraEdgeReconstruction(ctx, targetW, targetH);
+
+        fileSizeTag.innerText = "Injecting High-Bitrate Metadata...";
+        bar.style.width = "90%";
+
+        // Save at 0.99 Bitrate for 5MB - 7MB size
+        const base64Jpeg = canvas.toDataURL('image/jpeg', 0.99);
         const finalJpeg = buildAndInjectEXIF(base64Jpeg);
 
+        // Calculate live file size in MB
+        const stringLength = finalJpeg.length - 'data:image/jpeg;base64,'.length;
+        const sizeInBytes = 4 * Math.ceil(stringLength / 3) * 0.5624896334383612;
+        const sizeInMb = (sizeInBytes / (1024 * 1024)).toFixed(2);
+
         bar.style.width = "100%";
-        status.innerText = "Pixel Reconstruction & Metadata Complete!";
+        fileSizeTag.innerText = `Final Size: ~${sizeInMb} MB (Crystal Clear)`;
 
         downloadBtn.href = finalJpeg;
-        downloadBtn.download = `${rawFileName}_crisp_hd.jpg`;
+        downloadBtn.download = `${rawFileName}_4k_ultra_hd.jpg`;
         downloadBtn.classList.remove('hidden');
 
       } catch (err) {
         console.error(err);
-        status.innerText = "Error Processing Image Matrix";
-        status.className = "text-[10px] font-mono font-bold px-2.5 py-1 rounded bg-red-950 text-red-400";
+        fileSizeTag.innerText = "Error Processing 4K Stream";
       }
     }
 
-    // Sub-Pixel Sensor Noise & Convolution Kernel (Stops AI Smooth Blur on Zoom)
-    function applySubPixelGrainAndSharpen(context, w, h) {
+    // Edge-Preserving Contrast & Micro-Sensor Details
+    function applyUltraEdgeReconstruction(context, w, h) {
       const imgData = context.getImageData(0, 0, w, h);
       const data = imgData.data;
       const copy = new Uint8ClampedArray(data);
@@ -346,18 +364,17 @@
       for (let i = w4 + 4; i < data.length - w4 - 4; i += 4) {
         const centerR = copy[i], centerG = copy[i+1], centerB = copy[i+2];
 
-        // Surrounding Pixels for High-Pass Contrast
+        // High Pass Edge Filter
         const topR = copy[i - w4], leftR = copy[i - 4], rightR = copy[i + 4], bottomR = copy[i + w4];
         const topG = copy[i - w4 + 1], leftG = copy[i - 3], rightG = copy[i + 5], bottomG = copy[i + w4 + 1];
         const topB = copy[i - w4 + 2], leftB = copy[i - 2], rightB = copy[i + 6], bottomB = copy[i + w4 + 2];
 
-        // 1. High-Pass Sharpen Matrix Calculation
-        let sharpR = centerR * 4.6 - (topR + leftR + rightR + bottomR) * 0.9;
-        let sharpG = centerG * 4.6 - (topG + leftG + rightG + bottomG) * 0.9;
-        let sharpB = centerB * 4.6 - (topB + leftB + rightB + bottomB) * 0.9;
+        const sharpR = centerR * 4.4 - (topR + leftR + rightR + bottomR) * 0.85;
+        const sharpG = centerG * 4.4 - (topG + leftG + rightG + bottomG) * 0.85;
+        const sharpB = centerB * 4.4 - (topB + leftB + rightB + bottomB) * 0.85;
 
-        // 2. Physical Sensor Bayer Noise (Injects micro-texture into smooth AI pixels)
-        const sensorNoise = (Math.random() - 0.5) * 6.8;
+        // Sub-pixel physical sensor noise (Ensures clarity & 5MB+ byte weight)
+        const sensorNoise = (Math.random() - 0.5) * 5.2;
 
         data[i] = Math.min(255, Math.max(0, sharpR + sensorNoise));
         data[i+1] = Math.min(255, Math.max(0, sharpG + sensorNoise));
